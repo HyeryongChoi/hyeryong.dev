@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 import Link from 'next/link';
-import { MenuIcon } from 'lucide-react';
-import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 
 function Header() {
   return (

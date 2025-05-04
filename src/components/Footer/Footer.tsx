@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { TwitterIcon } from 'lucide-react';
 
 function Footer() {
   return (
