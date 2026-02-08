@@ -1,25 +1,36 @@
-import Footer from '@/components/Footer/Footer';
-import Header from '@/components/Header/Header';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { VT323 } from 'next/font/google';
 import './globals.css';
+import { WindowProvider } from '@/contexts/WindowContext';
+import { WindowManager } from '@/components/WindowManager';
+import { Taskbar } from '@/components/Taskbar';
 
-const inter = Inter({ subsets: ['latin'] });
+const vt323 = VT323({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-vt323',
+});
 
 export const metadata: Metadata = {
-  title: 'Blog | Hyeryong.dev',
-  description: 'Hyeryong.dev',
+  title: 'HYERYONG.DEV - Windows 98',
+  description: 'Windows 98 스타일의 개발 블로그입니다',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko'>
-      <body className={inter.className}>
-        <div className='mx-auto max-w-2xl px-4 py-10'>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </div>
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
+      <body className={vt323.variable}>
+        <WindowProvider>
+          {children}
+          <WindowManager />
+          <Taskbar />
+        </WindowProvider>
       </body>
     </html>
   );

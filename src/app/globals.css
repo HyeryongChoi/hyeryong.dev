@@ -3,20 +3,637 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --win98-teal: #008080;
+  --win98-gray: #c0c0c0;
+  --win98-dark-gray: #808080;
+  --win98-white: #ffffff;
+  --win98-black: #000000;
+  --win98-blue: #000080;
+  --win98-blue-light: #1084d0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  margin: 0;
+  padding: 0;
+  background: var(--win98-teal);
+  color: var(--win98-black);
+  font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
+  font-size: 11px;
+  overflow: hidden;
+}
+
+/* Windows 98 바탕화면 */
+.desktop {
+  position: relative;
+  background: var(--win98-teal);
+  min-height: 100vh;
+  padding: 8px;
+  cursor: default;
+}
+
+.desktop > nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* 바탕화면 아이콘 */
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75px;
+  padding: 4px;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 8px;
+  background: none;
+  border: none;
+}
+
+.desktop-icon:hover {
+  filter: brightness(1.1);
+}
+
+.icon-image {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-label {
+  color: var(--win98-white);
+  font-size: 11px;
+  text-align: center;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+  line-height: 1.2;
+}
+
+/* Windows Explorer 창 */
+.explorer-window {
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black) var(--win98-white);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.win95-title-bar {
+  background: linear-gradient(90deg, var(--win98-blue), var(--win98-blue-light));
+  padding: 2px 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 11px;
+  color: white;
+}
+
+.title-bar-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.title-bar-button {
+  width: 16px;
+  height: 14px;
+  padding: 0;
+  border: 1px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black) var(--win98-white);
+  background: var(--win98-gray);
+  font-size: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.title-bar-button:active {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white) var(--win98-black);
+  padding: 1px 0 0 1px;
+}
+
+/* 메뉴바 */
+.explorer-menubar {
+  background: var(--win98-gray);
+  padding: 2px 4px;
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.explorer-menubar span {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.explorer-menubar span:hover {
+  color: white;
+  background: var(--win98-blue);
+}
+
+/* 툴바 */
+.explorer-toolbar {
+  background: var(--win98-gray);
+  padding: 3px 2px 3px 2px;
+  display: flex;
+  gap: 0px;
+  align-items: center;
+  border-bottom: 2px solid;
+  border-bottom-color: var(--win98-dark-gray);
+  box-shadow: 
+    0 1px 0 var(--win98-white) inset,
+    0 -1px 0 var(--win98-dark-gray);
+  position: relative;
+}
+
+.explorer-toolbar::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--win98-white);
+}
+
+.toolbar-button {
+  min-width: 48px;
+  height: 38px;
+  background: var(--win98-gray);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: var(--win98-black);
+  position: relative;
+}
+
+.toolbar-button:hover {
+  background: var(--win98-gray);
+  border: 1px solid;
+  border-color: var(--win98-white) var(--win98-dark-gray) var(--win98-dark-gray) var(--win98-white);
+}
+
+.toolbar-button:active {
+  background: #b8b8b8;
+  border: 1px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white) var(--win98-dark-gray);
+  padding: 5px 5px 3px 7px;
+}
+
+.toolbar-dropdown {
+  height: 38px;
+  background: var(--win98-gray);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--win98-black);
+}
+
+.toolbar-dropdown:hover {
+  background: var(--win98-gray);
+  border: 1px solid;
+  border-color: var(--win98-white) var(--win98-dark-gray) var(--win98-dark-gray) var(--win98-white);
+  border-left: none;
+}
+
+.toolbar-dropdown:active {
+  background: #b8b8b8;
+  border: 1px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white) var(--win98-dark-gray);
+  border-left: none;
+  padding: 1px 0 0 1px;
+}
+
+.toolbar-separator {
+  width: 2px;
+  height: 34px;
+  background: linear-gradient(90deg, var(--win98-dark-gray) 0%, var(--win98-dark-gray) 1px, var(--win98-white) 1px, var(--win98-white) 2px);
+  margin: 0 2px;
+  align-self: center;
+}
+
+/* 주소 표시줄 */
+.address-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--win98-gray);
+  border-bottom: 1px solid var(--win98-dark-gray);
+}
+
+.address-bar-label {
+  font-size: 11px;
+}
+
+.address-bar-input {
+  flex: 1;
+  height: 20px;
+  border: 1px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white) var(--win98-dark-gray);
+  padding: 2px 4px;
+  font-size: 11px;
+  background: white;
+}
+
+/* 내용 영역 */
+.explorer-content {
+  flex: 1;
+  background: white;
+  padding: 8px;
+  overflow: auto;
+}
+
+/* 상태바 */
+.explorer-status-bar {
+  background: var(--win98-gray);
+  padding: 2px;
+  font-size: 11px;
+  display: flex;
+  gap: 2px;
+}
+
+.status-section {
+  padding: 2px 4px;
+  border: 1px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white) var(--win98-dark-gray);
+}
+
+/* 작업 표시줄 */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: var(--win98-gray);
+  border-top: 2px solid var(--win98-white);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  z-index: 9999;
+}
+
+.start-button {
+  height: 22px;
+  padding: 0 4px;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black) var(--win98-white);
+  font-weight: bold;
+  font-size: 11px;
+  color: var(--win98-black);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.start-button:active,
+.start-button.active {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white) var(--win98-black);
+  padding: 1px 3px 0 5px;
+}
+
+.taskbar-divider,
+.taskbar-separator {
+  width: 2px;
+  height: 22px;
+  background: var(--win98-dark-gray);
+  border-right: 1px solid var(--win98-white);
+}
+
+.taskbar-buttons {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+}
+
+.taskbar-button {
+  height: 22px;
+  padding: 0 4px;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black) var(--win98-white);
+  font-size: 11px;
+  color: var(--win98-black);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 120px;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskbar-button:hover {
+  background: var(--win98-gray);
+}
+
+.taskbar-button:active,
+.taskbar-button.active {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white) var(--win98-black);
+  padding: 1px 3px 0 5px;
+}
+
+.clock {
+  margin-left: auto;
+  padding: 3px 8px;
+  border: 1px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white) var(--win98-dark-gray);
+  font-size: 11px;
+  color: var(--win98-black);
+  background: var(--win98-gray);
+  height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+/* 시작 메뉴 */
+.start-menu {
+  position: fixed;
+  bottom: 28px;
+  left: 2px;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black) var(--win98-white);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  z-index: 10000;
+  display: flex;
+}
+
+.start-menu-banner {
+  background: linear-gradient(180deg, #000080 0%, #1084d0 100%);
+  color: white;
+  padding: 4px 6px;
+  font-size: 22px;
+  font-weight: bold;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 1px;
+  font-family: Arial, sans-serif;
+  min-width: 26px;
+}
+
+.start-menu-items {
+  padding: 2px;
+  list-style: none;
+  margin: 0;
+  min-width: 190px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--win98-black);
+  list-style: none;
+  position: relative;
+  min-height: 28px;
+}
+
+.start-menu-item:hover {
+  background: var(--win98-blue);
+  color: white;
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  font-size: 8px;
+}
+
+.start-menu-separator {
+  height: 1px;
+  background: var(--win98-dark-gray);
+  margin: 3px 4px;
+  border-bottom: 1px solid var(--win98-white);
+  list-style: none;
+}
+
+/* 아이콘 스타일 */
+.win-icon-computer {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(to bottom, #87CEEB, #4682B4);
+  border: 2px solid;
+  border-color: #E0E0E0 #404040 #404040 #E0E0E0;
+  position: relative;
+}
+
+.win-icon-computer::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 8px;
+  background: linear-gradient(to bottom, #C0C0C0, #808080);
+  border: 1px solid #404040;
+  border-radius: 0 0 4px 4px;
+}
+
+.win-icon-folder {
+  width: 32px;
+  height: 28px;
+  background: linear-gradient(135deg, #FFFF99, #FFB347);
+  border: 1px solid #996600;
+  position: relative;
+  border-radius: 0 2px 2px 2px;
+}
+
+.win-icon-folder::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 16px;
+  height: 8px;
+  background: linear-gradient(135deg, #FFFF99, #FFCC33);
+  border: 1px solid #996600;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+}
+
+.win-icon-document {
+  width: 28px;
+  height: 34px;
+  background: white;
+  border: 1px solid #808080;
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.win-icon-document::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 4px;
+  width: 20px;
+  height: 2px;
+  background: #000080;
+  box-shadow: 
+    0 4px 0 #000080,
+    0 8px 0 #000080,
+    0 12px 0 #000080;
+}
+
+.win-icon-ie {
+  width: 32px;
+  height: 32px;
+  background: radial-gradient(circle at 30% 30%, #6495ED, #1E3A8A);
+  border-radius: 50%;
+  border: 2px solid #1E3A8A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  font-style: italic;
+  font-family: 'Times New Roman', serif;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+.win-icon-ie::after {
+  content: 'e';
+}
+
+.win-icon-recycle {
+  width: 32px;
+  height: 36px;
+  position: relative;
+}
+
+.win-icon-recycle::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 32px;
+  height: 30px;
+  background: linear-gradient(to bottom, #D3D3D3, #909090);
+  border: 1px solid #606060;
+  clip-path: polygon(
+    20% 0%, 80% 0%,
+    100% 10%, 95% 100%,
+    5% 100%, 0% 10%
+  );
+}
+
+.win-icon-recycle::after {
+  content: '';
+  position: absolute;
+  top: 34px;
+  left: 0;
+  width: 32px;
+  height: 4px;
+  background: radial-gradient(ellipse, #808080, #606060);
+  border-radius: 50%;
+}
+
+.win-icon-notepad {
+  width: 28px;
+  height: 34px;
+  background: white;
+  border: 1px solid #808080;
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.win-icon-notepad::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 2px;
+  width: 24px;
+  height: 4px;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      #FFD700 0px,
+      #FFD700 3px,
+      transparent 3px,
+      transparent 4px
+    );
+}
+
+.win-icon-notepad::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 1px;
+  background: #87CEEB;
+  box-shadow: 
+    0 3px 0 #87CEEB,
+    0 6px 0 #87CEEB,
+    0 9px 0 #87CEEB;
+}
+
+/* Windows Logo */
+.windows-logo {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  grid-template-columns: 7px 7px;
+  grid-template-rows: 7px 7px;
+  gap: 2px;
+  transform: rotate(-10deg);
+}
+
+.windows-pane {
+  border: 1px solid rgba(0,0,0,0.2);
+}
+
+.windows-pane:nth-child(1) {
+  background: #FF0000;
+}
+
+.windows-pane:nth-child(2) {
+  background: #00FF00;
+}
+
+.windows-pane:nth-child(3) {
+  background: #0000FF;
+}
+
+.windows-pane:nth-child(4) {
+  background: #FFFF00;
+}
+
+/* 커서 애니메이션 */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s infinite;
 }
