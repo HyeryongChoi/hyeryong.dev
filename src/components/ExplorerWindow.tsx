@@ -22,8 +22,20 @@ export function ExplorerWindow() {
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleTitleBarMouseDown = (e: React.MouseEvent) => {
+    if (isMobile) return; // 모바일에서는 드래그 비활성화
     setIsDragging(true);
     const rect = (e.target as HTMLElement)
       .closest(".explorer-window")
@@ -36,7 +48,24 @@ export function ExplorerWindow() {
     }
   };
 
+  const handleTitleBarTouchStart = (e: React.TouchEvent) => {
+    if (isMobile) return; // 모바일에서는 드래그 비활성화
+    const touch = e.touches[0];
+    setIsDragging(true);
+    const rect = (e.target as HTMLElement)
+      .closest(".explorer-window")
+      ?.getBoundingClientRect();
+    if (rect) {
+      setDragOffset({
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      });
+    }
+  };
+
   useEffect(() => {
+    if (isMobile) return; // 모바일에서는 드래그 이벤트 리스너 추가 안 함
+
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
         setWindowPosition({
@@ -46,20 +75,38 @@ export function ExplorerWindow() {
       }
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging && e.touches.length > 0) {
+        const touch = e.touches[0];
+        setWindowPosition({
+          x: touch.clientX - dragOffset.x,
+          y: touch.clientY - dragOffset.y,
+        });
+      }
+    };
+
     const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    const handleTouchEnd = () => {
       setIsDragging(false);
     };
 
     if (isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
     }
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isDragging, dragOffset, setWindowPosition]);
+  }, [isDragging, dragOffset, setWindowPosition, isMobile]);
 
   const handleIconDoubleClick = (path: string) => {
     router.push(path);
@@ -84,7 +131,8 @@ export function ExplorerWindow() {
       <div
         className="win95-title-bar"
         onMouseDown={handleTitleBarMouseDown}
-        style={{ cursor: "move" }}
+        onTouchStart={handleTitleBarTouchStart}
+        style={{ cursor: isMobile ? "default" : "move" }}
       >
         <span style={{ fontSize: "11px", userSelect: "none" }}>
           HYERYONG.DEV

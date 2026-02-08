@@ -1,27 +1,31 @@
-import type { Metadata } from 'next';
-import { VT323 } from 'next/font/google';
-import './globals.css';
-import { WindowProvider } from '@/contexts/WindowContext';
-import { WindowManager } from '@/components/WindowManager';
-import { Taskbar } from '@/components/Taskbar';
+import type { Metadata } from "next";
+import { VT323 } from "next/font/google";
+import "./globals.css";
+import { WindowProvider } from "@/contexts/WindowContext";
+import { WindowManager } from "@/components/WindowManager";
+import { Taskbar } from "@/components/Taskbar";
 
 const vt323 = VT323({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-vt323',
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-vt323",
 });
 
 export const metadata: Metadata = {
-  title: 'HYERYONG.DEV - Windows 98',
-  description: 'Windows 98 스타일의 개발 블로그입니다',
+  title: "HYERYONG.DEV",
+  description: "Welcome to Hyeryong's development blog",
   icons: {
-    icon: '/favicon.svg',
+    icon: "/favicon.svg",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang='ko'>
+    <html lang="ko">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>

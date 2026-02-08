@@ -46,8 +46,20 @@ export function MusicPlayerWindow() {
   const [isDraggingMusic, setIsDraggingMusic] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [showPlaylistDropdown, setShowPlaylistDropdown] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleMusicTitleBarMouseDown = (e: React.MouseEvent) => {
+    if (isMobile) return; // 모바일에서는 드래그 비활성화
     setIsDraggingMusic(true);
     const rect = (e.target as HTMLElement)
       .closest(".explorer-window")
@@ -60,7 +72,24 @@ export function MusicPlayerWindow() {
     }
   };
 
+  const handleMusicTitleBarTouchStart = (e: React.TouchEvent) => {
+    if (isMobile) return; // 모바일에서는 드래그 비활성화
+    const touch = e.touches[0];
+    setIsDraggingMusic(true);
+    const rect = (e.target as HTMLElement)
+      .closest(".explorer-window")
+      ?.getBoundingClientRect();
+    if (rect) {
+      setDragOffset({
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      });
+    }
+  };
+
   useEffect(() => {
+    if (isMobile) return; // 모바일에서는 드래그 이벤트 리스너 추가 안 함
+
     const handleMouseMove = (e: MouseEvent) => {
       if (isDraggingMusic) {
         setMusicWindowPosition({
@@ -70,20 +99,38 @@ export function MusicPlayerWindow() {
       }
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDraggingMusic && e.touches.length > 0) {
+        const touch = e.touches[0];
+        setMusicWindowPosition({
+          x: touch.clientX - dragOffset.x,
+          y: touch.clientY - dragOffset.y,
+        });
+      }
+    };
+
     const handleMouseUp = () => {
+      setIsDraggingMusic(false);
+    };
+
+    const handleTouchEnd = () => {
       setIsDraggingMusic(false);
     };
 
     if (isDraggingMusic) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
     }
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isDraggingMusic, dragOffset, setMusicWindowPosition]);
+  }, [isDraggingMusic, dragOffset, setMusicWindowPosition, isMobile]);
 
   return (
     <div
@@ -107,7 +154,8 @@ export function MusicPlayerWindow() {
       <div
         className="win95-title-bar"
         onMouseDown={handleMusicTitleBarMouseDown}
-        style={{ cursor: "move" }}
+        onTouchStart={handleMusicTitleBarTouchStart}
+        style={{ cursor: isMobile ? "default" : "move" }}
       >
         <span style={{ fontSize: "11px", userSelect: "none" }}>
           Windows Media Player
