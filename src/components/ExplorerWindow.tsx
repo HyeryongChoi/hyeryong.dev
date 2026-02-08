@@ -26,6 +26,9 @@ export function ExplorerWindow() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [selectedFolderIcon, setSelectedFolderIcon] = useState<string | null>(
+    null,
+  );
 
   // 클라이언트 마운트 감지
   useEffect(() => {
@@ -39,8 +42,8 @@ export function ExplorerWindow() {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, [mounted]);
 
   const handleTitleBarMouseDown = (e: React.MouseEvent) => {
@@ -122,9 +125,9 @@ export function ExplorerWindow() {
   };
 
   const handleCopy = () => {
-    if (typeof window !== 'undefined') {
-      navigator.clipboard.writeText('https://hyeryongdev.vercel.app');
-      setAlertMessage('URL이 클립보드에 복사되었습니다.');
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText("https://hyeryongdev.vercel.app");
+      setAlertMessage("URL이 클립보드에 복사되었습니다.");
       setShowAlert(true);
     }
   };
@@ -133,13 +136,18 @@ export function ExplorerWindow() {
     <div
       className="explorer-window"
       onClick={() => bringToFront("explorer")}
-      style={{
-        '--window-top': windowPosition.y > 0 ? `${windowPosition.y}px` : '10%',
-        '--window-left': windowPosition.x > 0 ? `${windowPosition.x}px` : '50%',
-        '--window-transform': windowPosition.x > 0 ? 'none' : 'translateX(-50%)',
-        cursor: isDragging ? "move" : "default",
-        zIndex: explorerZIndex,
-      } as React.CSSProperties}
+      style={
+        {
+          "--window-top":
+            windowPosition.y > 0 ? `${windowPosition.y}px` : "10%",
+          "--window-left":
+            windowPosition.x > 0 ? `${windowPosition.x}px` : "50%",
+          "--window-transform":
+            windowPosition.x > 0 ? "none" : "translateX(-50%)",
+          cursor: isDragging ? "move" : "default",
+          zIndex: explorerZIndex,
+        } as React.CSSProperties
+      }
     >
       {/* 타이틀바 */}
       <div
@@ -211,7 +219,7 @@ export function ExplorerWindow() {
           <span>→</span>
           <span>Forward</span>
         </button>
-        <button className="toolbar-button" onClick={() => router.push('/')}>
+        <button className="toolbar-button" onClick={() => router.push("/")}>
           <span>↑</span>
           <span>Up</span>
         </button>
@@ -283,67 +291,66 @@ export function ExplorerWindow() {
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: "16px",
+            placeItems: "center",
           }}
         >
           <button
-            onClick={() => handleIconDoubleClick("/about")}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "4px",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "8px",
+            className={`folder-icon ${selectedFolderIcon === "about" ? "selected" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isMobile) {
+                handleIconDoubleClick("/about");
+              } else {
+                setSelectedFolderIcon("about");
+              }
             }}
+            onDoubleClick={() => handleIconDoubleClick("/about")}
+            onBlur={() => setSelectedFolderIcon(null)}
           >
             <WindowsShell32Icon3 size={32} />
-            <span style={{ fontSize: "11px", color: "#000" }}>About Me</span>
+            <span>About Me</span>
           </button>
 
           <button
-            onClick={() => handleIconDoubleClick("/blog")}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "4px",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "8px",
+            className={`folder-icon ${selectedFolderIcon === "blog" ? "selected" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isMobile) {
+                handleIconDoubleClick("/blog");
+              } else {
+                setSelectedFolderIcon("blog");
+              }
             }}
+            onDoubleClick={() => handleIconDoubleClick("/blog")}
+            onBlur={() => setSelectedFolderIcon(null)}
           >
             <Windows95TextFile size={32} />
-            <span style={{ fontSize: "11px", color: "#000" }}>Blog</span>
+            <span>Blog</span>
           </button>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "4px",
-              padding: "8px",
+          <button
+            className={`folder-icon ${selectedFolderIcon === "projects" ? "selected" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedFolderIcon("projects");
             }}
+            onBlur={() => setSelectedFolderIcon(null)}
           >
             <Windows98MyDocuments2 size={32} />
-            <span style={{ fontSize: "11px", color: "#000" }}>Projects</span>
-          </div>
+            <span>Projects</span>
+          </button>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "4px",
-              padding: "8px",
+          <button
+            className={`folder-icon ${selectedFolderIcon === "contact" ? "selected" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedFolderIcon("contact");
             }}
+            onBlur={() => setSelectedFolderIcon(null)}
           >
             <Windows98Modem size={32} />
-            <span style={{ fontSize: "11px", color: "#000" }}>Contact</span>
-          </div>
+            <span>Contact</span>
+          </button>
         </div>
       </div>
 
