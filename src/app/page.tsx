@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useWindow } from "@/contexts/WindowContext";
 import { 
   WindowsMyComputer2, 
@@ -13,6 +14,16 @@ import {
 
 export default function Home() {
   const { setShowExplorerWindow, setShowMusicPlayer, bringToFront, setShowStartMenu } = useWindow();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleMyComputerClick = () => {
     setShowExplorerWindow(true);
@@ -33,6 +44,7 @@ export default function Home() {
           <button 
             className="desktop-icon"
             onDoubleClick={handleMyComputerClick}
+            onClick={isMobile ? handleMyComputerClick : undefined}
           >
             <div className="icon-image flex items-center justify-center">
               <WindowsMyComputer2 size={32} />
@@ -78,6 +90,7 @@ export default function Home() {
           <button 
             className="desktop-icon"
             onDoubleClick={handleMusicClick}
+            onClick={isMobile ? handleMusicClick : undefined}
           >
             <div className="icon-image flex items-center justify-center">
               <WindowsCDROMDrive size={32} />

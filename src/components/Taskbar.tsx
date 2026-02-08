@@ -23,9 +23,16 @@ export function Taskbar() {
   const router = useRouter();
   const { showExplorerWindow, setShowExplorerWindow, showMusicPlayer, bringToFront, explorerZIndex, musicZIndex, showStartMenu, setShowStartMenu } = useWindow();
   const [currentTime, setCurrentTime] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  // 클라이언트 마운트 감지
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 시간 업데이트
   useEffect(() => {
+    if (!mounted) return;
     const updateTime = () => {
       const now = new Date();
       const hours = now.getHours();
@@ -37,7 +44,7 @@ export function Taskbar() {
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
   return (
     <>
@@ -137,8 +144,8 @@ export function Taskbar() {
             <span>Windows Media Player</span>
           </button>
         )}
-        <time className="clock">
-          <span>{currentTime}</span>
+        <time className="clock" suppressHydrationWarning>
+          <span suppressHydrationWarning>{currentTime}</span>
         </time>
       </footer>
     </>

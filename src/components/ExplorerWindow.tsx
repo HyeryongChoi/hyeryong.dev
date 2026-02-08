@@ -23,16 +23,23 @@ export function ExplorerWindow() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // 클라이언트 마운트 감지
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 모바일 감지
   useEffect(() => {
+    if (!mounted) return;
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [mounted]);
 
   const handleTitleBarMouseDown = (e: React.MouseEvent) => {
     if (isMobile) return; // 모바일에서는 드래그 비활성화
@@ -117,22 +124,19 @@ export function ExplorerWindow() {
       className="explorer-window"
       onClick={() => bringToFront("explorer")}
       style={{
-        position: "absolute",
-        top: windowPosition.y || "10%",
-        left: windowPosition.x || "50%",
-        transform: windowPosition.x ? "none" : "translateX(-50%)",
-        width: "600px",
-        height: "400px",
+        '--window-top': windowPosition.y > 0 ? `${windowPosition.y}px` : '10%',
+        '--window-left': windowPosition.x > 0 ? `${windowPosition.x}px` : '50%',
+        '--window-transform': windowPosition.x > 0 ? 'none' : 'translateX(-50%)',
         cursor: isDragging ? "move" : "default",
         zIndex: explorerZIndex,
-      }}
+      } as React.CSSProperties}
     >
       {/* 타이틀바 */}
       <div
         className="win95-title-bar"
         onMouseDown={handleTitleBarMouseDown}
         onTouchStart={handleTitleBarTouchStart}
-        style={{ cursor: isMobile ? "default" : "move" }}
+        style={{ cursor: mounted && isMobile ? "default" : "move" }}
       >
         <span style={{ fontSize: "11px", userSelect: "none" }}>
           HYERYONG.DEV
@@ -185,49 +189,47 @@ export function ExplorerWindow() {
       {/* 툴바 */}
       <div className="explorer-toolbar">
         <button className="toolbar-button" onClick={() => router.back()}>
-          <span style={{ fontSize: "16px", color: "#000" }}>←</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Back</span>
+          <span>←</span>
+          <span>Back</span>
         </button>
         <button className="toolbar-button" onClick={() => router.forward()}>
-          <span style={{ fontSize: "16px", color: "#000" }}>→</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Forward</span>
+          <span>→</span>
+          <span>Forward</span>
         </button>
         <button className="toolbar-button" onClick={() => router.push('/')}>
-          <span style={{ fontSize: "16px", color: "#000" }}>↑</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Up</span>
+          <span>↑</span>
+          <span>Up</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
-          <span style={{ fontSize: "14px", color: "#000", lineHeight: "16px" }}>
-            ✂
-          </span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Cut</span>
+          <span style={{ lineHeight: "16px" }}>✂</span>
+          <span>Cut</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>⎘</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Copy</span>
+          <span>⎘</span>
+          <span>Copy</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>⎗</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Paste</span>
+          <span>⎗</span>
+          <span>Paste</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>↶</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Undo</span>
+          <span>↶</span>
+          <span>Undo</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>×</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Delete</span>
+          <span>×</span>
+          <span>Delete</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>⚙</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Properties</span>
+          <span>⚙</span>
+          <span>Properties</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>☰</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Views</span>
+          <span>☰</span>
+          <span>Views</span>
         </button>
       </div>
 

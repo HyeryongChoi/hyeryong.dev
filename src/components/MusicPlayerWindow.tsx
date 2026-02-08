@@ -47,16 +47,23 @@ export function MusicPlayerWindow() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [showPlaylistDropdown, setShowPlaylistDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // 클라이언트 마운트 감지
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 모바일 감지
   useEffect(() => {
+    if (!mounted) return;
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [mounted]);
 
   const handleMusicTitleBarMouseDown = (e: React.MouseEvent) => {
     if (isMobile) return; // 모바일에서는 드래그 비활성화
@@ -134,17 +141,14 @@ export function MusicPlayerWindow() {
 
   return (
     <div
-      className="explorer-window"
+      className="explorer-window music-player-window"
       style={{
-        position: "absolute",
-        top: musicWindowPosition.y || "10%",
-        left: musicWindowPosition.x || "50%",
-        transform: musicWindowPosition.x ? "none" : "translateX(-50%)",
-        width: "800px",
-        height: "600px",
+        '--window-top': musicWindowPosition.y > 0 ? `${musicWindowPosition.y}px` : '10%',
+        '--window-left': musicWindowPosition.x > 0 ? `${musicWindowPosition.x}px` : '50%',
+        '--window-transform': musicWindowPosition.x > 0 ? 'none' : 'translateX(-50%)',
         cursor: isDraggingMusic ? "move" : "default",
         zIndex: musicZIndex,
-      }}
+      } as React.CSSProperties}
       onClick={() => {
         setShowPlaylistDropdown(false);
         bringToFront("music");
@@ -155,7 +159,7 @@ export function MusicPlayerWindow() {
         className="win95-title-bar"
         onMouseDown={handleMusicTitleBarMouseDown}
         onTouchStart={handleMusicTitleBarTouchStart}
-        style={{ cursor: isMobile ? "default" : "move" }}
+        style={{ cursor: mounted && isMobile ? "default" : "move" }}
       >
         <span style={{ fontSize: "11px", userSelect: "none" }}>
           Windows Media Player
@@ -217,8 +221,8 @@ export function MusicPlayerWindow() {
           disabled={currentTrackIndex === 0}
           style={{ opacity: currentTrackIndex === 0 ? 0.5 : 1 }}
         >
-          <span style={{ fontSize: "16px", color: "#000" }}>←</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Back</span>
+          <span>←</span>
+          <span>Back</span>
         </button>
         <button 
           className="toolbar-button"
@@ -230,8 +234,8 @@ export function MusicPlayerWindow() {
           disabled={currentTrackIndex === playlist.length - 1}
           style={{ opacity: currentTrackIndex === playlist.length - 1 ? 0.5 : 1 }}
         >
-          <span style={{ fontSize: "16px", color: "#000" }}>→</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Forward</span>
+          <span>→</span>
+          <span>Forward</span>
         </button>
         <button 
           className="toolbar-button" 
@@ -239,41 +243,39 @@ export function MusicPlayerWindow() {
           disabled={currentTrackIndex === 0}
           style={{ opacity: currentTrackIndex === 0 ? 0.5 : 1 }}
         >
-          <span style={{ fontSize: "16px", color: "#000" }}>↑</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Up</span>
+          <span>↑</span>
+          <span>Up</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
-          <span style={{ fontSize: "14px", color: "#000", lineHeight: "16px" }}>
-            ✂
-          </span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Cut</span>
+          <span style={{ lineHeight: "16px" }}>✂</span>
+          <span>Cut</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>⎘</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Copy</span>
+          <span>⎘</span>
+          <span>Copy</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>⎗</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Paste</span>
+          <span>⎗</span>
+          <span>Paste</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>↶</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Undo</span>
+          <span>↶</span>
+          <span>Undo</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>×</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Delete</span>
+          <span>×</span>
+          <span>Delete</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>⚙</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Properties</span>
+          <span>⚙</span>
+          <span>Properties</span>
         </button>
         <button className="toolbar-button">
-          <span style={{ fontSize: "16px", color: "#000" }}>☰</span>
-          <span style={{ fontSize: "8px", color: "#000" }}>Views</span>
+          <span>☰</span>
+          <span>Views</span>
         </button>
       </div>
 

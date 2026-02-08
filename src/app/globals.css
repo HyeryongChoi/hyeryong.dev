@@ -84,6 +84,17 @@ body {
   box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: var(--window-top, 10%);
+  left: var(--window-left, 50%);
+  transform: var(--window-transform, translateX(-50%));
+  width: 600px;
+  height: 400px;
+}
+
+.music-player-window {
+  width: 800px;
+  height: 600px;
 }
 
 .win95-title-bar {
@@ -181,6 +192,18 @@ body {
   font-size: 10px;
   color: var(--win98-black);
   position: relative;
+}
+
+.toolbar-button span {
+  color: #000;
+}
+
+.toolbar-button span:first-child {
+  font-size: 16px;
+}
+
+.toolbar-button span:last-child {
+  font-size: 8px;
 }
 
 .toolbar-button:hover {
@@ -667,12 +690,21 @@ body {
 
   /* Explorer 창 모바일 대응 */
   .explorer-window {
-    width: calc(100vw - 16px) !important;
-    height: calc(100vh - 40px) !important;
-    max-width: 100vw !important;
-    left: 8px !important;
-    top: 8px !important;
-    transform: none !important;
+    width: calc(100vw - 32px);
+    height: 400px;
+    max-width: 100vw;
+    left: 16px;
+    top: 40%;
+    transform: translateY(-50%);
+  }
+
+  .music-player-window {
+    width: calc(100vw - 32px);
+    height: 400px;
+    max-width: 100vw;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   /* 타이틀바 */
@@ -712,11 +744,11 @@ body {
   }
 
   .toolbar-button span:first-child {
-    font-size: 14px !important;
+    font-size: 14px;
   }
 
   .toolbar-button span:last-child {
-    font-size: 7px !important;
+    font-size: 7px;
   }
 
   .toolbar-separator {
