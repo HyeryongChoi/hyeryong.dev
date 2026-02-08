@@ -1,5 +1,7 @@
 'use client';
 
+import { ReactNode } from 'react';
+
 interface MarkdownRendererProps {
   content: string;
 }
@@ -8,7 +10,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   // 간단한 마크다운 파싱 함수
   const parseMarkdown = (text: string) => {
     const lines = text.split('\n');
-    const elements: JSX.Element[] = [];
+    const elements: ReactNode[] = [];
     let inCodeBlock = false;
     let codeContent: string[] = [];
     let codeLanguage = '';
