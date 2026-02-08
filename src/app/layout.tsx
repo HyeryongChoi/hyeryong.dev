@@ -13,9 +13,34 @@ const vt323 = VT323({
 
 export const metadata: Metadata = {
   title: "HYERYONG.DEV",
-  description: "Welcome to Hyeryong's development blog",
+  description:
+    "Hi there, I'm Hyeryong Choi. Welcome to my blog - thanks for stopping by!",
   icons: {
     icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "HYERYONG.DEV",
+    description:
+      "Hi there, I'm Hyeryong Choi. Welcome to my blog - thanks for stopping by!",
+    url: "https://hyeryongdev.vercel.app",
+    siteName: "HYERYONG.DEV",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HYERYONG.DEV",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HYERYONG.DEV",
+    description:
+      "Hi there, I'm Hyeryong Choi. Welcome to my blog - thanks for stopping by!",
+    images: ["/og-image.png"],
   },
 };
 
