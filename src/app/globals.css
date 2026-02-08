@@ -1213,6 +1213,8 @@ body {
   font-weight: bold;
   margin: 0 0 4px 0;
   color: var(--win98-black);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .blog-card-date {
