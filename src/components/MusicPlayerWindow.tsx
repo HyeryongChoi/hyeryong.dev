@@ -38,6 +38,8 @@ export function MusicPlayerWindow() {
     setMusicWindowPosition,
     musicZIndex,
     setShowMusicPlayer,
+    setShowAlert,
+    setAlertMessage,
     currentTrackIndex,
     setCurrentTrackIndex,
     bringToFront,
@@ -139,6 +141,14 @@ export function MusicPlayerWindow() {
     };
   }, [isDraggingMusic, dragOffset, setMusicWindowPosition, isMobile]);
 
+  const handleCopy = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText('https://hyeryongdev.vercel.app');
+      setAlertMessage('URL이 클립보드에 복사되었습니다.');
+      setShowAlert(true);
+    }
+  };
+
   return (
     <div
       className="explorer-window music-player-window"
@@ -167,6 +177,7 @@ export function MusicPlayerWindow() {
         <div className="title-bar-buttons">
           <button
             className="title-bar-button"
+            onClick={() => setShowMusicPlayer(false)}
             onMouseDown={(e) => e.stopPropagation()}
           >
             _
@@ -255,7 +266,7 @@ export function MusicPlayerWindow() {
           <span style={{ lineHeight: "16px" }}>✂</span>
           <span>Cut</span>
         </button>
-        <button className="toolbar-button">
+        <button className="toolbar-button" onClick={handleCopy}>
           <span>⎘</span>
           <span>Copy</span>
         </button>
@@ -372,6 +383,7 @@ export function MusicPlayerWindow() {
           alignItems: "center",
           justifyContent: "center",
           padding: "15px",
+          overflow: "hidden",
         }}
       >
         {/* YouTube 플레이어 */}

@@ -13,7 +13,7 @@ import {
 } from "react-old-icons";
 
 export default function Home() {
-  const { setShowExplorerWindow, setShowMusicPlayer, bringToFront, setShowStartMenu } = useWindow();
+  const { setShowExplorerWindow, setShowMusicPlayer, setMusicEverOpened, bringToFront, setShowStartMenu } = useWindow();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -32,6 +32,7 @@ export default function Home() {
 
   const handleMusicClick = () => {
     setShowMusicPlayer(true);
+    setMusicEverOpened(true);
     bringToFront('music');
   };
 

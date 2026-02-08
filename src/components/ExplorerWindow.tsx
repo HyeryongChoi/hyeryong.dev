@@ -17,6 +17,8 @@ export function ExplorerWindow() {
     setWindowPosition,
     explorerZIndex,
     setShowExplorerWindow,
+    setShowAlert,
+    setAlertMessage,
     bringToFront,
   } = useWindow();
 
@@ -119,6 +121,14 @@ export function ExplorerWindow() {
     router.push(path);
   };
 
+  const handleCopy = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText('https://hyeryongdev.vercel.app');
+      setAlertMessage('URL이 클립보드에 복사되었습니다.');
+      setShowAlert(true);
+    }
+  };
+
   return (
     <div
       className="explorer-window"
@@ -144,6 +154,7 @@ export function ExplorerWindow() {
         <div className="title-bar-buttons">
           <button
             className="title-bar-button"
+            onClick={() => setShowExplorerWindow(false)}
             onMouseDown={(e) => e.stopPropagation()}
           >
             _
@@ -209,7 +220,7 @@ export function ExplorerWindow() {
           <span style={{ lineHeight: "16px" }}>✂</span>
           <span>Cut</span>
         </button>
-        <button className="toolbar-button">
+        <button className="toolbar-button" onClick={handleCopy}>
           <span>⎘</span>
           <span>Copy</span>
         </button>

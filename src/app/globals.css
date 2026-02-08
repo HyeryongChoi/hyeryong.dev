@@ -885,3 +885,20 @@ body {
     min-width: 32px;
   }
 }
+
+/* 알림창 */
+.alert-window {
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black) var(--win98-white);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.alert-button:hover {
+  border-color: var(--win98-white) var(--win98-dark-gray) var(--win98-dark-gray) var(--win98-white);
+}
+
+.alert-button:active {
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white) var(--win98-dark-gray);
+  padding: 1px 0 0 1px;
+}

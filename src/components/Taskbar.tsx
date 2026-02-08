@@ -21,7 +21,7 @@ import {
 
 export function Taskbar() {
   const router = useRouter();
-  const { showExplorerWindow, setShowExplorerWindow, showMusicPlayer, bringToFront, explorerZIndex, musicZIndex, showStartMenu, setShowStartMenu } = useWindow();
+  const { showExplorerWindow, setShowExplorerWindow, showMusicPlayer, setShowMusicPlayer, musicEverOpened, bringToFront, explorerZIndex, musicZIndex, showStartMenu, setShowStartMenu } = useWindow();
   const [currentTime, setCurrentTime] = useState("");
   const [mounted, setMounted] = useState(false);
 
@@ -134,10 +134,13 @@ export function Taskbar() {
           <WindowsMyComputer2 size={14} />
           <span>HYERYONG.DEV</span>
         </button>
-        {showMusicPlayer && (
+        {musicEverOpened && (
           <button 
-            className={`taskbar-button ${musicZIndex > explorerZIndex ? 'active' : ''}`}
-            onClick={() => bringToFront('music')}
+            className={`taskbar-button ${showMusicPlayer && musicZIndex > explorerZIndex ? 'active' : ''}`}
+            onClick={() => {
+              setShowMusicPlayer(true);
+              bringToFront('music');
+            }}
             aria-label="Windows Media Player window"
           >
             <WindowsCDROMDrive size={14} />

@@ -9,6 +9,12 @@ interface WindowContextType {
   setShowMusicPlayer: (show: boolean) => void;
   showStartMenu: boolean;
   setShowStartMenu: (show: boolean) => void;
+  musicEverOpened: boolean;
+  setMusicEverOpened: (opened: boolean) => void;
+  showAlert: boolean;
+  setShowAlert: (show: boolean) => void;
+  alertMessage: string;
+  setAlertMessage: (message: string) => void;
   windowPosition: { x: number; y: number };
   setWindowPosition: (pos: { x: number; y: number }) => void;
   musicWindowPosition: { x: number; y: number };
@@ -30,10 +36,13 @@ export function WindowProvider({ children }: { children: ReactNode }) {
   const [showExplorerWindow, setShowExplorerWindow] = useState(true);
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
   const [showStartMenu, setShowStartMenu] = useState(false);
+  const [musicEverOpened, setMusicEverOpened] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
   const [musicWindowPosition, setMusicWindowPosition] = useState({ x: 0, y: 0 });
-  const [explorerZIndex, setExplorerZIndex] = useState(100);
-  const [musicZIndex, setMusicZIndex] = useState(101);
+  const [explorerZIndex, setExplorerZIndex] = useState(101);
+  const [musicZIndex, setMusicZIndex] = useState(100);
   const [topZIndex, setTopZIndex] = useState(101);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
@@ -56,6 +65,12 @@ export function WindowProvider({ children }: { children: ReactNode }) {
         setShowMusicPlayer,
         showStartMenu,
         setShowStartMenu,
+        musicEverOpened,
+        setMusicEverOpened,
+        showAlert,
+        setShowAlert,
+        alertMessage,
+        setAlertMessage,
         windowPosition,
         setWindowPosition,
         musicWindowPosition,
