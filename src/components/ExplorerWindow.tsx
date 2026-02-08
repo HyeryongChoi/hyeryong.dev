@@ -187,7 +187,11 @@ export function ExplorerWindow() {
       </div>
 
       {/* 툴바 */}
-      <div className="explorer-toolbar">
+      <div
+        className="explorer-toolbar"
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         <button className="toolbar-button" onClick={() => router.back()}>
           <span>←</span>
           <span>Back</span>

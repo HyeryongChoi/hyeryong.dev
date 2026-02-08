@@ -210,7 +210,11 @@ export function MusicPlayerWindow() {
       </div>
 
       {/* 툴바 */}
-      <div className="explorer-toolbar">
+      <div
+        className="explorer-toolbar"
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         <button 
           className="toolbar-button" 
           onClick={() => {
