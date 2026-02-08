@@ -140,8 +140,8 @@ export function MusicPlayerWindow() {
         top: musicWindowPosition.y || "10%",
         left: musicWindowPosition.x || "50%",
         transform: musicWindowPosition.x ? "none" : "translateX(-50%)",
-        width: "800px",
-        height: "600px",
+        width: "640px",
+        height: "480px",
         cursor: isDraggingMusic ? "move" : "default",
         zIndex: musicZIndex,
       }}

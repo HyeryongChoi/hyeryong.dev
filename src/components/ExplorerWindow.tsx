@@ -121,8 +121,8 @@ export function ExplorerWindow() {
         top: windowPosition.y || "10%",
         left: windowPosition.x || "50%",
         transform: windowPosition.x ? "none" : "translateX(-50%)",
-        width: "600px",
-        height: "400px",
+        width: "480px",
+        height: "360px",
         cursor: isDragging ? "move" : "default",
         zIndex: explorerZIndex,
       }}
