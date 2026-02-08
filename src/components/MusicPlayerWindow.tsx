@@ -31,13 +31,18 @@ const playlist = [
   },
 ];
 
-export function MusicPlayerWindow() {
+interface MusicPlayerWindowProps {
+  isMinimized?: boolean;
+}
+
+export function MusicPlayerWindow({ isMinimized = false }: MusicPlayerWindowProps) {
   const router = useRouter();
   const {
     musicWindowPosition,
     setMusicWindowPosition,
     musicZIndex,
     setShowMusicPlayer,
+    setIsMusicPlayerMinimized,
     setShowAlert,
     setAlertMessage,
     currentTrackIndex,
@@ -153,6 +158,13 @@ export function MusicPlayerWindow() {
     <div
       className="explorer-window music-player-window"
       style={{
+        ...(isMinimized && {
+          visibility: 'hidden',
+          position: 'fixed',
+          top: '-9999px',
+          left: '-9999px',
+          pointerEvents: 'none' as const,
+        }),
         '--window-top': musicWindowPosition.y > 0 ? `${musicWindowPosition.y}px` : '10%',
         '--window-left': musicWindowPosition.x > 0 ? `${musicWindowPosition.x}px` : '50%',
         '--window-transform': musicWindowPosition.x > 0 ? 'none' : 'translateX(-50%)',
@@ -177,7 +189,10 @@ export function MusicPlayerWindow() {
         <div className="title-bar-buttons">
           <button
             className="title-bar-button"
-            onClick={() => setShowMusicPlayer(false)}
+            onClick={() => {
+              setIsMusicPlayerMinimized(true);
+              setShowMusicPlayer(false);
+            }}
             onMouseDown={(e) => e.stopPropagation()}
           >
             _
@@ -190,7 +205,10 @@ export function MusicPlayerWindow() {
           </button>
           <button
             className="title-bar-button"
-            onClick={() => setShowMusicPlayer(false)}
+            onClick={() => {
+              setShowMusicPlayer(false);
+              setIsMusicPlayerMinimized(false);
+            }}
             onMouseDown={(e) => e.stopPropagation()}
           >
             ✕

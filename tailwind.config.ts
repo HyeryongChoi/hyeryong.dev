@@ -13,9 +13,13 @@ const config: Config = {
         'pc-light-blue': '#0000AA',
         'pc-gray': '#C0C0C0',
         'pc-dark-gray': '#808080',
+        'crt-green': '#33ff33',
+        'crt-amber': '#ffb000',
+        'crt-cyan': '#00ffff',
       },
       fontFamily: {
         'retro': ['var(--font-vt323)', 'Courier New', 'monospace'],
+        'pixel': ['var(--font-vt323)', 'Courier New', 'monospace'],
       },
     },
   },

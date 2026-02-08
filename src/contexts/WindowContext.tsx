@@ -7,6 +7,8 @@ interface WindowContextType {
   setShowExplorerWindow: (show: boolean) => void;
   showMusicPlayer: boolean;
   setShowMusicPlayer: (show: boolean) => void;
+  isMusicPlayerMinimized: boolean;
+  setIsMusicPlayerMinimized: (minimized: boolean) => void;
   showStartMenu: boolean;
   setShowStartMenu: (show: boolean) => void;
   musicEverOpened: boolean;
@@ -35,6 +37,7 @@ const WindowContext = createContext<WindowContextType | undefined>(undefined);
 export function WindowProvider({ children }: { children: ReactNode }) {
   const [showExplorerWindow, setShowExplorerWindow] = useState(true);
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
+  const [isMusicPlayerMinimized, setIsMusicPlayerMinimized] = useState(false);
   const [showStartMenu, setShowStartMenu] = useState(false);
   const [musicEverOpened, setMusicEverOpened] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -63,6 +66,8 @@ export function WindowProvider({ children }: { children: ReactNode }) {
         setShowExplorerWindow,
         showMusicPlayer,
         setShowMusicPlayer,
+        isMusicPlayerMinimized,
+        setIsMusicPlayerMinimized,
         showStartMenu,
         setShowStartMenu,
         musicEverOpened,

@@ -21,7 +21,7 @@ import {
 
 export function Taskbar() {
   const router = useRouter();
-  const { showExplorerWindow, setShowExplorerWindow, showMusicPlayer, setShowMusicPlayer, musicEverOpened, bringToFront, explorerZIndex, musicZIndex, showStartMenu, setShowStartMenu } = useWindow();
+  const { showExplorerWindow, setShowExplorerWindow, showMusicPlayer, setShowMusicPlayer, setIsMusicPlayerMinimized, musicEverOpened, bringToFront, explorerZIndex, musicZIndex, showStartMenu, setShowStartMenu } = useWindow();
   const [currentTime, setCurrentTime] = useState("");
   const [mounted, setMounted] = useState(false);
 
@@ -139,6 +139,7 @@ export function Taskbar() {
             className={`taskbar-button ${showMusicPlayer && musicZIndex > explorerZIndex ? 'active' : ''}`}
             onClick={() => {
               setShowMusicPlayer(true);
+              setIsMusicPlayerMinimized(false);
               bringToFront('music');
             }}
             aria-label="Windows Media Player window"

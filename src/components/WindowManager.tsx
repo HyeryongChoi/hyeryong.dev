@@ -6,12 +6,14 @@ import { MusicPlayerWindow } from "./MusicPlayerWindow";
 import { AlertWindow } from "./AlertWindow";
 
 export function WindowManager() {
-  const { showExplorerWindow, showMusicPlayer } = useWindow();
+  const { showExplorerWindow, showMusicPlayer, isMusicPlayerMinimized } = useWindow();
 
   return (
     <>
       {showExplorerWindow && <ExplorerWindow />}
-      {showMusicPlayer && <MusicPlayerWindow />}
+      {(showMusicPlayer || isMusicPlayerMinimized) && (
+        <MusicPlayerWindow isMinimized={isMusicPlayerMinimized} />
+      )}
       <AlertWindow />
     </>
   );
