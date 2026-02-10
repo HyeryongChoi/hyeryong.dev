@@ -8,6 +8,7 @@ import {
   WindowsShell32Icon3,
   Windows95TextFile,
   Windows98Modem,
+  WindowsCDROMDrive,
 } from "react-old-icons";
 
 export function ExplorerWindow() {
@@ -17,8 +18,12 @@ export function ExplorerWindow() {
     setWindowPosition,
     explorerZIndex,
     setShowExplorerWindow,
+    setShowMusicPlayer,
+    setIsMusicPlayerMinimized,
+    setMusicEverOpened,
     setShowAlert,
     setAlertMessage,
+    setShowStartMenu,
     bringToFront,
   } = useWindow();
 
@@ -124,6 +129,13 @@ export function ExplorerWindow() {
     router.push(path);
   };
 
+  const handleMusicClick = () => {
+    setShowMusicPlayer(true);
+    setIsMusicPlayerMinimized(false);
+    setMusicEverOpened(true);
+    bringToFront("music");
+  };
+
   const handleCopy = () => {
     if (typeof window !== "undefined") {
       navigator.clipboard.writeText("https://hyeryongdev.vercel.app");
@@ -219,7 +231,13 @@ export function ExplorerWindow() {
           <span>→</span>
           <span>Forward</span>
         </button>
-        <button className="toolbar-button" onClick={() => router.push("/")}>
+        <button
+          className="toolbar-button"
+          onClick={() => {
+            router.push("/");
+            setShowStartMenu(false);
+          }}
+        >
           <span>↑</span>
           <span>Up</span>
         </button>
@@ -289,7 +307,7 @@ export function ExplorerWindow() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(5, 1fr)",
             gap: "16px",
             placeItems: "center",
           }}
@@ -351,13 +369,30 @@ export function ExplorerWindow() {
             <Windows98Modem size={32} />
             <span>Contact</span>
           </button>
+
+          <button
+            className={`folder-icon ${selectedFolderIcon === "music" ? "selected" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isMobile) {
+                handleMusicClick();
+              } else {
+                setSelectedFolderIcon("music");
+              }
+            }}
+            onDoubleClick={handleMusicClick}
+            onBlur={() => setSelectedFolderIcon(null)}
+          >
+            <WindowsCDROMDrive size={32} />
+            <span>Music</span>
+          </button>
         </div>
       </div>
 
       {/* 상태바 */}
       <div className="explorer-status-bar">
         <div className="status-section" style={{ flex: 1 }}>
-          4 object(s)
+          5 object(s)
         </div>
         <div className="status-section">My Computer</div>
       </div>

@@ -15,7 +15,7 @@ import {
 
 export default function Home() {
   const pathname = usePathname();
-  const { setShowExplorerWindow, setShowMusicPlayer, setMusicEverOpened, bringToFront, setShowStartMenu } = useWindow();
+  const { setShowExplorerWindow, setShowMusicPlayer, setIsMusicPlayerMinimized, setMusicEverOpened, bringToFront, setShowStartMenu } = useWindow();
   const [isMobile, setIsMobile] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
@@ -41,6 +41,7 @@ export default function Home() {
 
   const handleMusicClick = () => {
     setShowMusicPlayer(true);
+    setIsMusicPlayerMinimized(false);
     setMusicEverOpened(true);
     bringToFront('music');
   };
