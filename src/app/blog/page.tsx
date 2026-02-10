@@ -102,22 +102,28 @@ export default function BlogPage() {
       className="blog-main blog-main-full"
       onClick={() => setShowStartMenu(false)}
     >
-      <div className="blog-container">
+      <div className="blog-container blog-list-screen">
+        <header className="blog-masthead">
+          <span className="blog-masthead-label">C:\\</span>
+          <h1 className="blog-masthead-title">BLOG</h1>
+          <span className="blog-masthead-sub">directory listing</span>
+        </header>
         <div className="blog-search-wrapper">
+          <span className="blog-search-prompt" aria-hidden>C:\BLOG&gt;</span>
           <input
             type="text"
-            placeholder="Search posts by title, description, or tags..."
+            placeholder=" search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="blog-search-input"
           />
           <button type="button" className="blog-search-button">
-            Search
+            RUN
           </button>
         </div>
 
         <div className="blog-card-list">
-          {postsToShow.map((post) => (
+          {postsToShow.map((post, idx) => (
             <article
               key={post.id}
               className="blog-card"
@@ -131,6 +137,9 @@ export default function BlogPage() {
                 }
               }}
             >
+              <span className="blog-card-num" aria-hidden>
+                {(isMobile ? idx : (currentPage - 1) * ITEMS_PER_PAGE + idx) + 1}
+              </span>
               <div className="blog-card-thumbnail">
                 {post.thumbnail ? (
                   // eslint-disable-next-line @next/next/no-img-element

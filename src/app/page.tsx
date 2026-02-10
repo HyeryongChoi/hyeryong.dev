@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useWindow } from "@/contexts/WindowContext";
 import { 
   WindowsMyComputer2, 
@@ -13,9 +14,16 @@ import {
 } from "react-old-icons";
 
 export default function Home() {
+  const pathname = usePathname();
   const { setShowExplorerWindow, setShowMusicPlayer, setMusicEverOpened, bringToFront, setShowStartMenu } = useWindow();
   const [isMobile, setIsMobile] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pathname === "/") {
+      setShowExplorerWindow(true);
+    }
+  }, [pathname, setShowExplorerWindow]);
 
   useEffect(() => {
     const checkMobile = () => {

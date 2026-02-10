@@ -35,7 +35,7 @@ interface WindowContextType {
 const WindowContext = createContext<WindowContextType | undefined>(undefined);
 
 export function WindowProvider({ children }: { children: ReactNode }) {
-  const [showExplorerWindow, setShowExplorerWindow] = useState(true);
+  const [showExplorerWindow, setShowExplorerWindow] = useState(false);
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
   const [isMusicPlayerMinimized, setIsMusicPlayerMinimized] = useState(false);
   const [showStartMenu, setShowStartMenu] = useState(false);

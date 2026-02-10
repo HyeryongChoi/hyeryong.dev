@@ -1176,26 +1176,101 @@ body {
   overflow-y: auto;
 }
 
+/* ========== 블로그 목록: Win98 UI 톤 통일 ========== */
 .blog-container {
   width: 100%;
-  max-width: 1020px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-.blog-search-wrapper {
-  margin-bottom: 24px;
+.blog-list-screen {
+  position: relative;
+  padding: 24px 20px 32px;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.blog-list-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  opacity: 0.4;
+}
+
+.blog-masthead {
   display: flex;
+  align-items: baseline;
   gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid;
+  border-bottom-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
+  flex-wrap: wrap;
+}
+
+.blog-masthead-label {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+  font-size: 12px;
+  color: var(--win98-blue);
+  letter-spacing: 0.02em;
+}
+
+.blog-masthead-title {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--win98-blue);
+  margin: 0;
+  letter-spacing: 0.08em;
+}
+
+.blog-masthead-sub {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--win98-dark-gray);
+  margin-left: 4px;
+}
+
+.blog-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
+    var(--win98-black);
+  padding: 2px 0 2px 10px;
+}
+
+.blog-search-prompt {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 13px;
+  color: var(--win98-black);
+  flex-shrink: 0;
 }
 
 .blog-search-input {
   flex: 1;
+  min-width: 0;
   padding: 10px 12px;
+  font-family: ui-monospace, monospace;
   font-size: 14px;
-  border: 2px solid;
-  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
-    var(--win98-black);
+  color: var(--win98-black);
   background: var(--win98-white);
+  border: 1px solid var(--win98-dark-gray);
   outline: none;
 }
 
@@ -1204,14 +1279,17 @@ body {
 }
 
 .blog-search-button {
-  padding: 10px 20px;
-  font-size: 13px;
+  padding: 10px 18px;
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: var(--win98-gray);
+  color: var(--win98-black);
   border: 2px solid;
   border-color: var(--win98-white) var(--win98-black) var(--win98-black)
     var(--win98-white);
-  background: var(--win98-gray);
   cursor: pointer;
-  color: var(--win98-black);
   flex-shrink: 0;
 }
 
@@ -1222,38 +1300,59 @@ body {
 .blog-search-button:active {
   border-color: var(--win98-black) var(--win98-white) var(--win98-white)
     var(--win98-black);
-  padding: 11px 19px 9px 21px;
 }
 
 .blog-card-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .blog-card {
   display: flex;
-  gap: 24px;
-  padding: 16px;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0;
   background: var(--win98-gray);
   border: 2px solid;
   border-color: var(--win98-white) var(--win98-black) var(--win98-black)
     var(--win98-white);
+  border-left-width: 4px;
+  border-left-color: var(--win98-teal);
   cursor: pointer;
-  transition: filter 0.15s;
+  transition: filter 0.15s, box-shadow 0.15s;
+  text-align: left;
+  position: relative;
 }
 
 .blog-card:hover {
   filter: brightness(1.05);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.blog-card-num {
+  flex-shrink: 0;
+  width: 28px;
+  padding: 14px 8px 14px 12px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--win98-dark-gray);
+  background: var(--win98-gray);
+  border-right: 2px solid;
+  border-right-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
 }
 
 .blog-card-thumbnail {
-  width: 160px;
-  min-width: 160px;
-  height: 120px;
+  width: 120px;
+  min-width: 120px;
+  height: 90px;
   position: relative;
   background: var(--win98-dark-gray);
   flex-shrink: 0;
+  border-right: 2px solid;
+  border-right-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
 }
 
 .blog-card-thumbnail-placeholder {
@@ -1264,11 +1363,12 @@ body {
   justify-content: center;
   background: linear-gradient(
     135deg,
-    var(--win98-blue) 0%,
+    var(--win98-teal) 0%,
     var(--win98-blue-light) 100%
   );
-  color: white;
-  font-size: 32px;
+  color: var(--win98-white);
+  font-family: ui-monospace, monospace;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -1281,27 +1381,32 @@ body {
 .blog-card-body {
   flex: 1;
   min-width: 0;
+  padding: 12px 16px 14px;
 }
 
 .blog-card-title {
-  font-size: 16px;
-  font-weight: bold;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 14px;
+  font-weight: 700;
   margin: 0 0 4px 0;
   color: var(--win98-black);
   overflow-wrap: break-word;
   word-break: break-word;
+  letter-spacing: 0.02em;
 }
 
 .blog-card-date {
   font-size: 11px;
   color: var(--win98-dark-gray);
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
 }
 
 .blog-card-excerpt {
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--win98-black);
   margin: 0 0 8px 0;
 }
@@ -1314,37 +1419,39 @@ body {
 
 .blog-card-tag {
   font-size: 10px;
-  padding: 2px 6px;
-  background: var(--win98-blue);
-  color: white;
+  padding: 2px 8px;
+  background: #008080;
+  color: #fff;
+  border-radius: 2px;
 }
 
 .blog-empty {
   text-align: center;
-  padding: 48px;
-  color: var(--win98-dark-gray);
+  padding: 48px 24px;
+  font-family: ui-monospace, monospace;
   font-size: 14px;
+  color: #808080;
 }
 
 .blog-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   margin-top: 24px;
   padding: 16px;
   flex-wrap: wrap;
 }
 
 .blog-pagination-btn {
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 8px 14px;
+  font-size: 13px;
   background: var(--win98-gray);
+  color: var(--win98-black);
   border: 2px solid;
   border-color: var(--win98-white) var(--win98-black) var(--win98-black)
     var(--win98-white);
   cursor: pointer;
-  color: var(--win98-black);
   transition: filter 0.15s;
 }
 
@@ -1354,7 +1461,13 @@ body {
 
 .blog-pagination-btn:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
+}
+
+.blog-pagination-btn:active:not(:disabled) {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
+    var(--win98-black);
+  padding: 9px 13px 7px 15px;
 }
 
 .blog-pagination-numbers {
@@ -1364,16 +1477,16 @@ body {
 }
 
 .blog-pagination-num {
-  min-width: 32px;
-  height: 32px;
-  padding: 0 8px;
-  font-size: 14px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  font-size: 13px;
   background: var(--win98-gray);
+  color: var(--win98-black);
   border: 2px solid;
   border-color: var(--win98-white) var(--win98-black) var(--win98-black)
     var(--win98-white);
   cursor: pointer;
-  color: var(--win98-black);
   transition: filter 0.15s;
 }
 
@@ -1381,19 +1494,62 @@ body {
   filter: brightness(1.05);
 }
 
+.blog-pagination-num:active {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
+    var(--win98-black);
+  padding: 1px 5px 1px 7px;
+}
+
 .blog-pagination-num-active {
-  font-weight: bold;
+  font-weight: 700;
   background: var(--win98-blue);
-  color: white;
-  border-color: var(--win98-blue-mid) var(--win98-blue-dark) var(--win98-blue-dark)
+  color: var(--win98-white);
+  border-color: var(--win98-blue-mid) var(--win98-blue) var(--win98-blue)
     var(--win98-blue-mid);
 }
 
 .blog-pagination-ellipsis {
   padding: 0 4px;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--win98-dark-gray);
   user-select: none;
+}
+
+@media (max-width: 600px) {
+  .blog-list-screen {
+    padding: 16px 12px 24px;
+  }
+  .blog-masthead-title {
+    font-size: 18px;
+  }
+  .blog-card {
+    flex-wrap: wrap;
+  }
+  .blog-card-num {
+    width: 24px;
+    padding: 10px 6px 10px 8px;
+    font-size: 10px;
+  }
+  .blog-card-thumbnail {
+    width: 100%;
+    min-width: 0;
+    height: 140px;
+    order: -1;
+    border-right: none;
+    border-bottom: 2px solid;
+    border-bottom-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+      var(--win98-dark-gray);
+  }
+  .blog-card-body {
+    padding: 10px 12px 12px;
+  }
+  .blog-card-title {
+    font-size: 13px;
+  }
+  .blog-card-excerpt {
+    font-size: 12px;
+    line-height: 1.55;
+  }
 }
 
 .blog-infinite-sentinel {
@@ -1449,4 +1605,173 @@ body {
   color: var(--win98-blue-mid);
   margin-bottom: 2px;
   display: block;
+}
+
+/* ========== Win98/XP 스타일 로딩 다이얼로그 (캡처 동일) ========== */
+.loading-spinner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 10000;
+}
+
+/* 다이얼로그 프레임: Win98 창과 동일한 3D 테두리 */
+.loading-spinner-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  z-index: 10001;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 타이틀 바: 기존 win95-title-bar와 동일 컬러 (가로 그라데이션) */
+.loading-spinner-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 3px;
+  background: linear-gradient(
+    90deg,
+    var(--win98-blue),
+    var(--win98-blue-light)
+  );
+  font-weight: bold;
+  font-size: 11px;
+  color: white;
+}
+
+.loading-spinner-title-text {
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+}
+
+/* X 버튼: 기존 title-bar-button 스타일과 통일 */
+.loading-spinner-close {
+  width: 16px;
+  height: 14px;
+  padding: 0;
+  border: 1px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  background: var(--win98-gray);
+  color: var(--win98-black);
+  font-size: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.loading-spinner-close:hover {
+  filter: brightness(1.05);
+}
+
+.loading-spinner-close:active {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
+    var(--win98-black);
+  padding: 1px 0 0 1px;
+}
+
+/* 본문: 밝은 회색 (시스템 그레이) */
+.loading-spinner-body {
+  background: var(--win98-gray);
+  padding: 20px 16px 20px;
+}
+
+.loading-spinner-label {
+  margin: 0 0 14px 0;
+  font-family: "MS Sans Serif", Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--win98-black);
+  text-align: center;
+}
+
+/* 진행 바 컨테이너: 눌린 듯한 inset 3D */
+.loading-spinner-track {
+  height: 20px;
+  padding: 4px;
+  background: var(--win98-dark-gray);
+  border: 2px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
+  box-shadow: 1px 1px 0 var(--win98-darker-gray) inset;
+}
+
+/* 세그먼트들: 블록 사이 얇은 짙은 회색 선으로 구분 */
+.loading-spinner-segments {
+  display: flex;
+  gap: 1px;
+  height: 100%;
+  width: 100%;
+  background: var(--win98-gray);
+}
+
+.loading-spinner-segment {
+  flex: 1;
+  min-width: 6px;
+  background: var(--win98-gray);
+  transition: background 0.06s ease;
+}
+
+.loading-spinner-segment.filled {
+  background: var(--win98-blue);
+}
+
+/* 버튼 영역은 기본 숨김 (showButtons 시에만 사용) */
+.loading-spinner-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.loading-spinner-btn {
+  min-width: 72px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: bold;
+  background: var(--win98-gray);
+  color: var(--win98-black);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  cursor: pointer;
+  outline: none;
+}
+
+.loading-spinner-btn:hover {
+  filter: brightness(1.05);
+}
+
+.loading-spinner-btn:active {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
+    var(--win98-black);
+  padding: 7px 13px 5px 15px;
+}
+
+/* 인라인 스피너 (다이얼로그 없이) */
+.loading-spinner-inline {
+  padding: 12px;
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
+}
+
+.loading-spinner-inline .loading-spinner-label {
+  margin-bottom: 8px;
+}
+
+.loading-spinner-inline .loading-spinner-track {
+  margin-bottom: 0;
 }
