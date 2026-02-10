@@ -17,11 +17,11 @@ export default function BlogPostPage() {
   }, [id]);
 
   const currentIndex = blogPosts.findIndex((p) => p.id === id);
-  /** 이전 글 = 목록에서 더 아래 = 오래된 글 (index+1) */
-  const olderPost =
-    currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null;
-  /** 다음 글 = 목록에서 더 위 = 최신 글 (index-1) */
-  const newerPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null;
+  const previousPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null;
+  const nextPost =
+    currentIndex >= 0 && currentIndex < blogPosts.length - 1
+      ? blogPosts[currentIndex + 1]
+      : null;
 
   if (!post) {
     return (
@@ -106,9 +106,9 @@ export default function BlogPostPage() {
             <button
               type="button"
               className="toolbar-button"
-              onClick={() => olderPost && router.push(`/blog/${olderPost.id}`)}
-              disabled={!olderPost}
-              title="이전 글 (오래된 글)"
+              onClick={() => previousPost && router.push(`/blog/${previousPost.id}`)}
+              disabled={!previousPost}
+              title="목록의 이전 글"
             >
               <span>←</span>
               <span>Back</span>
@@ -116,9 +116,9 @@ export default function BlogPostPage() {
             <button
               type="button"
               className="toolbar-button"
-              onClick={() => newerPost && router.push(`/blog/${newerPost.id}`)}
-              disabled={!newerPost}
-              title="다음 글 (최신 글)"
+              onClick={() => nextPost && router.push(`/blog/${nextPost.id}`)}
+              disabled={!nextPost}
+              title="목록의 다음 글"
             >
               <span>→</span>
               <span>Forward</span>

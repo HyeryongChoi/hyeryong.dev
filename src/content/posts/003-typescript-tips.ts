@@ -1,11 +1,11 @@
-import type { BlogPost } from '@/data/blog.types';
+import type { BlogPost } from "@/data/blog.types";
 
 export const post: BlogPost = {
-  id: '003',
-  title: 'TYPESCRIPT_TIPS.LOG',
-  date: '2026.02.06',
-  excerpt: 'TypeScript 실전 팁과 트릭 모음',
-  tags: ['TYPESCRIPT', 'JAVASCRIPT', 'TIP'],
+  id: "003",
+  title: "TYPESCRIPT_TIPS.LOG",
+  date: "2026.02.08",
+  excerpt: "TypeScript 실전 팁과 트릭 모음",
+  tags: ["TYPESCRIPT", "JAVASCRIPT", "TIP"],
   content: `# TypeScript 실전 팁
 
 ## 유틸리티 타입 활용하기

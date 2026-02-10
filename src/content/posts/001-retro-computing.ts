@@ -1,11 +1,11 @@
-import type { BlogPost } from '@/data/blog.types';
+import type { BlogPost } from "@/data/blog.types";
 
 export const post: BlogPost = {
-  id: '001',
-  title: 'RETRO_COMPUTING.MD',
-  date: '2026.02.08',
-  excerpt: '레트로 컴퓨팅의 매력과 웹 디자인에 적용하기',
-  tags: ['DESIGN', 'RETRO', 'CSS'],
+  id: "001",
+  title: "RETRO_COMPUTING.MD",
+  date: "2026.02.06",
+  excerpt: "레트로 컴퓨팅의 매력과 웹 디자인에 적용하기",
+  tags: ["DESIGN", "RETRO", "CSS"],
   content: `# 레트로 컴퓨팅의 매력
 
 ## 서론
