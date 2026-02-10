@@ -1179,7 +1179,7 @@ body {
 /* ========== 블로그 목록: Win98 UI 톤 통일 ========== */
 .blog-container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
