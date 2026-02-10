@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useWindow } from '@/contexts/WindowContext';
-import { blogPosts } from '@/data/posts';
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useWindow } from "@/contexts/WindowContext";
+import { blogPosts } from "@/data/posts";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function BlogPage() {
   const router = useRouter();
   const { setShowStartMenu } = useWindow();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
@@ -21,8 +21,8 @@ export default function BlogPage() {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const filteredPosts = useMemo(() => {
@@ -32,7 +32,7 @@ export default function BlogPage() {
       (post) =>
         post.title.toLowerCase().includes(query) ||
         post.excerpt.toLowerCase().includes(query) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(query))
+        post.tags.some((tag) => tag.toLowerCase().includes(query)),
     );
   }, [searchQuery]);
 
@@ -54,10 +54,10 @@ export default function BlogPage() {
     const sorted = Array.from(include)
       .filter((p) => p >= 1 && p <= totalPages)
       .sort((a, b) => a - b);
-    const result: (number | 'ellipsis')[] = [];
+    const result: (number | "ellipsis")[] = [];
     for (const p of sorted) {
       if (result.length && p > (result[result.length - 1] as number) + 1) {
-        result.push('ellipsis');
+        result.push("ellipsis");
       }
       result.push(p);
     }
@@ -75,7 +75,9 @@ export default function BlogPage() {
   const hasMore = isMobile && visibleCount < filteredPosts.length;
 
   const loadMore = useCallback(() => {
-    setVisibleCount((prev) => Math.min(prev + ITEMS_PER_PAGE, filteredPosts.length));
+    setVisibleCount((prev) =>
+      Math.min(prev + ITEMS_PER_PAGE, filteredPosts.length),
+    );
   }, [filteredPosts.length]);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function BlogPage() {
       (entries) => {
         if (entries[0]?.isIntersecting) loadMore();
       },
-      { rootMargin: '100px', threshold: 0 }
+      { rootMargin: "100px", threshold: 0 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -104,12 +106,13 @@ export default function BlogPage() {
     >
       <div className="blog-container blog-list-screen">
         <header className="blog-masthead">
-          <span className="blog-masthead-label">C:\\</span>
           <h1 className="blog-masthead-title">BLOG</h1>
           <span className="blog-masthead-sub">directory listing</span>
         </header>
         <div className="blog-search-wrapper">
-          <span className="blog-search-prompt" aria-hidden>C:\BLOG&gt;</span>
+          <span className="blog-search-prompt" aria-hidden>
+            C:\BLOG&gt;
+          </span>
           <input
             type="text"
             placeholder=" search..."
@@ -131,14 +134,15 @@ export default function BlogPage() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   router.push(`/blog/${post.id}`);
                 }
               }}
             >
               <span className="blog-card-num" aria-hidden>
-                {(isMobile ? idx : (currentPage - 1) * ITEMS_PER_PAGE + idx) + 1}
+                {(isMobile ? idx : (currentPage - 1) * ITEMS_PER_PAGE + idx) +
+                  1}
               </span>
               <div className="blog-card-thumbnail">
                 {post.thumbnail ? (
@@ -184,21 +188,24 @@ export default function BlogPage() {
             </button>
             <div className="blog-pagination-numbers">
               {paginationPages.map((page, i) =>
-                page === 'ellipsis' ? (
-                  <span key={`ellipsis-${i}`} className="blog-pagination-ellipsis">
+                page === "ellipsis" ? (
+                  <span
+                    key={`ellipsis-${i}`}
+                    className="blog-pagination-ellipsis"
+                  >
                     …
                   </span>
                 ) : (
                   <button
                     key={page}
                     type="button"
-                    className={`blog-pagination-num ${currentPage === page ? 'blog-pagination-num-active' : ''}`}
+                    className={`blog-pagination-num ${currentPage === page ? "blog-pagination-num-active" : ""}`}
                     onClick={() => setCurrentPage(page)}
-                    aria-current={currentPage === page ? 'page' : undefined}
+                    aria-current={currentPage === page ? "page" : undefined}
                   >
                     {page}
                   </button>
-                )
+                ),
               )}
             </div>
             <button
@@ -212,7 +219,9 @@ export default function BlogPage() {
           </nav>
         )}
 
-        {isMobile && hasMore && <div ref={sentinelRef} className="blog-infinite-sentinel" />}
+        {isMobile && hasMore && (
+          <div ref={sentinelRef} className="blog-infinite-sentinel" />
+        )}
 
         {filteredPosts.length === 0 && (
           <div className="blog-empty">No posts found.</div>

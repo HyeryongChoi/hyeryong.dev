@@ -1215,23 +1215,16 @@ body {
   margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 2px solid;
-  border-bottom-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
-    var(--win98-dark-gray);
+  border-bottom-color: var(--win98-dark-gray) var(--win98-white)
+    var(--win98-white) var(--win98-dark-gray);
   flex-wrap: wrap;
-}
-
-.blog-masthead-label {
-  font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
-  font-size: 12px;
-  color: var(--win98-blue);
-  letter-spacing: 0.02em;
 }
 
 .blog-masthead-title {
   font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
   font-size: 22px;
   font-weight: 700;
-  color: var(--win98-blue);
+  color: var(--win98-darker-gray);
   margin: 0;
   letter-spacing: 0.08em;
 }
@@ -1313,21 +1306,28 @@ body {
   align-items: flex-start;
   gap: 0;
   padding: 0;
-  background: var(--win98-gray);
+  background: #f5f4f0;
   border: 2px solid;
-  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+  border-color: var(--win98-white) var(--win98-dark-gray) var(--win98-dark-gray)
     var(--win98-white);
-  border-left-width: 4px;
+  border-left-width: 5px;
   border-left-color: var(--win98-teal);
   cursor: pointer;
-  transition: filter 0.15s, box-shadow 0.15s;
+  transition:
+    filter 0.15s,
+    box-shadow 0.15s,
+    border-left-color 0.15s;
   text-align: left;
   position: relative;
+  box-shadow: 0 1px 0 var(--win98-white) inset;
 }
 
 .blog-card:hover {
-  filter: brightness(1.05);
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  filter: brightness(1.02);
+  box-shadow:
+    0 1px 0 var(--win98-white) inset,
+    2px 3px 8px rgba(0, 0, 0, 0.12);
+  border-left-color: var(--win98-blue);
 }
 
 .blog-card-num {
@@ -1336,11 +1336,9 @@ body {
   padding: 14px 8px 14px 12px;
   font-family: ui-monospace, monospace;
   font-size: 11px;
-  color: var(--win98-dark-gray);
-  background: var(--win98-gray);
-  border-right: 2px solid;
-  border-right-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
-    var(--win98-dark-gray);
+  font-weight: 600;
+  color: var(--win98-teal);
+  background: #eae8e2;
 }
 
 .blog-card-thumbnail {
@@ -1348,11 +1346,11 @@ body {
   min-width: 120px;
   height: 90px;
   position: relative;
-  background: var(--win98-dark-gray);
+  background: linear-gradient(180deg, #d0cec8 0%, #b8b6b0 100%);
   flex-shrink: 0;
   border-right: 2px solid;
-  border-right-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
-    var(--win98-dark-gray);
+  border-right-color: var(--win98-dark-gray) var(--win98-white)
+    var(--win98-white) var(--win98-dark-gray);
 }
 
 .blog-card-thumbnail-placeholder {
@@ -1364,12 +1362,14 @@ body {
   background: linear-gradient(
     135deg,
     var(--win98-teal) 0%,
+    #0d9d9d 50%,
     var(--win98-blue-light) 100%
   );
   color: var(--win98-white);
   font-family: ui-monospace, monospace;
   font-size: 24px;
   font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .blog-card-thumbnail-img {
@@ -1382,6 +1382,7 @@ body {
   flex: 1;
   min-width: 0;
   padding: 12px 16px 14px;
+  background: #faf9f6;
 }
 
 .blog-card-title {
@@ -1389,10 +1390,14 @@ body {
   font-size: 14px;
   font-weight: 700;
   margin: 0 0 4px 0;
-  color: var(--win98-black);
+  color: var(--win98-blue);
   overflow-wrap: break-word;
   word-break: break-word;
   letter-spacing: 0.02em;
+}
+
+.blog-card:hover .blog-card-title {
+  color: var(--win98-teal);
 }
 
 .blog-card-date {
@@ -1404,10 +1409,14 @@ body {
 }
 
 .blog-card-excerpt {
-  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
   font-size: 13px;
   line-height: 1.6;
-  color: var(--win98-black);
+  color: #2a2a2a;
   margin: 0 0 8px 0;
 }
 
@@ -1419,10 +1428,11 @@ body {
 
 .blog-card-tag {
   font-size: 10px;
-  padding: 2px 8px;
-  background: #008080;
-  color: #fff;
-  border-radius: 2px;
+  padding: 3px 8px;
+  background: var(--win98-teal);
+  color: var(--win98-white);
+  border: 1px solid #006666;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
 }
 
 .blog-empty {
@@ -1537,8 +1547,8 @@ body {
     order: -1;
     border-right: none;
     border-bottom: 2px solid;
-    border-bottom-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
-      var(--win98-dark-gray);
+    border-bottom-color: var(--win98-dark-gray) var(--win98-white)
+      var(--win98-white) var(--win98-dark-gray);
   }
   .blog-card-body {
     padding: 10px 12px 12px;
