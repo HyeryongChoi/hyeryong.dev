@@ -19,7 +19,6 @@ export const post: BlogPost = {
   contentKo: `## History API란?
 
 브라우저가 관리하는 session history를 제어하기 위한 웹 표준 API이다.
-
 \`history\` 전역 객체 또는 \`window\`, \`document\` 전역 객체를 통해서 사용할 수 있다.
 
 \`\`\`
@@ -38,16 +37,13 @@ history.go(2); // 앞으로 2번 가기
 ## 등장배경
 
 전통적으로 웹사이트는 여러 페이지들의 묶음으로 구현되었다.
-
 사용자가 링크를 클릭하여 다른 페이지로 이동할 때마다 브라우저는 완전히 새로운 페이지를 로드한다.
 
 여기서 발생하는 문제점들은 다음과 같다.
-
 - 페이지 이동 시 애플리케이션의 상태를 유지하기 어렵다.
 - 페이지의 일부분에서만 업데이트가 필요할 때에도 매번 페이지 전체를 로드하는 것은 비효율적일 수 있다.
 
 위와 같은 문제점들로, SPA(Single-Page-Application)가 인기 패턴이 되었다.
-
 - 새로운 콘텐츠로 페이지를 업데이트한다.
 - 화면에 표시할 새로운 콘텐츠를 페칭해온다.
 - 새로운 페이지를 로딩할 때 새로고침을 방지한다.
@@ -247,14 +243,12 @@ function HomePage() {
 \`\`\`
 
 ## 참고
-
 - [react router v6 - useNavigate](https://api.reactrouter.com/v7/functions/react-router.useNavigate.html)
 - [Working with the History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API)
 `,
   contentEn: `## What is the History API?
 
 A web standard API for controlling the session history managed by the browser.
-
 It can be used through the \`history\` global object or the \`window\` and \`document\` global objects.
 
 \`\`\`
@@ -273,16 +267,13 @@ Calling \`history.back()\`, \`history.forward()\`, or \`history.go()\` causes th
 ## Background
 
 Traditionally, websites were implemented as a collection of multiple pages.
-
 Each time a user clicked a link to navigate to another page, the browser loaded a completely new page.
 
 This led to several problems:
-
 - It was difficult to maintain application state during page navigation.
 - Loading the entire page for partial updates was often inefficient.
 
 Because of these issues, SPA (Single-Page Application) became a popular pattern.
-
 - Update the page with new content.
 - Fetch new content to display.
 - Prevent refresh when loading new pages.
@@ -479,7 +470,6 @@ function HomePage() {
 \`\`\`
 
 ## References
-
 - [react router v6 - useNavigate](https://api.reactrouter.com/v7/functions/react-router.useNavigate.html)
 - [Working with the History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API)
 `,

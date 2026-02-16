@@ -220,15 +220,9 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     const flushList = () => {
       if (listBuffer.length > 0) {
         elements.push(
-          <ul
-            key={`ul-${listBuffer[0].key}`}
-            className="prose-retro-list my-4"
-          >
+          <ul key={`ul-${listBuffer[0].key}`} className="prose-retro-list">
             {listBuffer.map((item) => (
-              <li
-                key={item.key}
-                className="font-retro text-crt-green my-2"
-              >
+              <li key={item.key} className="font-retro text-crt-green my-2">
                 {item.content}
               </li>
             ))}
@@ -297,20 +291,14 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       if (line.startsWith("### ")) {
         flushList();
         elements.push(
-          <h3
-            key={index}
-            className="font-retro text-crt-cyan text-glow"
-          >
+          <h3 key={index} className="font-retro text-crt-cyan text-glow">
             &gt; {parseInline(line.slice(4))}
           </h3>,
         );
       } else if (line.startsWith("## ")) {
         flushList();
         elements.push(
-          <h2
-            key={index}
-            className="font-retro text-crt-amber text-glow"
-          >
+          <h2 key={index} className="font-retro text-crt-amber text-glow">
             &gt;&gt; {parseInline(line.slice(3))}
           </h2>,
         );
@@ -350,7 +338,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
         elements.push(
           <p
             key={index}
-            className="text-2xl font-retro text-crt-green leading-relaxed my-4"
+            className="text-2xl font-retro text-crt-green leading-relaxed"
           >
             {parseInline(line)}
           </p>,
@@ -359,7 +347,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       // 빈 줄
       else {
         flushList();
-        elements.push(<div key={index} className="h-4" />);
+        elements.push(<br key={index} />);
       }
     });
 

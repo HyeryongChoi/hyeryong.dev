@@ -23,6 +23,8 @@
 * {
   box-sizing: border-box;
   scrollbar-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -1131,7 +1133,7 @@ body {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  background: var(--win98-gray);
+  background: var(--win98-white);
   border: 2px solid;
   border-color: var(--win98-white) var(--win98-black) var(--win98-black)
     var(--win98-white);
@@ -1144,7 +1146,7 @@ body {
   display: flex;
   flex-direction: column;
   background: #fff;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .blog-article-pane-header {
@@ -1189,9 +1191,6 @@ body {
 }
 
 .blog-article-content-inner {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
   padding: 20px 24px;
 }
 
@@ -1201,6 +1200,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-top: 8px;
 }
 
 .prose-retro-list li::before {
@@ -1212,6 +1212,11 @@ body {
 /* 블로그 본문: 최소 16px 기준 */
 .prose-retro {
   font-size: 16px;
+}
+
+.prose-retro-empty-line {
+  height: 1rem;
+  min-height: 1rem;
 }
 
 .prose-retro p {
@@ -1236,7 +1241,6 @@ body {
 .prose-retro h2 {
   font-size: 22px;
   margin-top: 1.75em;
-  margin-bottom: 0.6em;
 }
 
 .prose-retro h2:first-child {
@@ -1268,7 +1272,6 @@ body {
 .blog-article-page .blog-article-content {
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
 }
 
 /* ========== 블로그 목록: Win98 UI 톤 통일 ========== */
