@@ -1,20 +1,24 @@
 "use client";
 
 import { blogPosts } from "@/data/posts";
+import { getLocalizedPost } from "@/data/blog.types";
 import { useRouter, useParams } from "next/navigation";
 import { useMemo } from "react";
 import { useWindow } from "@/contexts/WindowContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import MarkdownRenderer from "@/components/MarkdownRenderer/MarkdownRenderer";
 
 export default function BlogPostPage() {
   const router = useRouter();
+  const { locale } = useLanguage();
   const { setShowStartMenu } = useWindow();
   const params = useParams();
   const id = params.id as string;
 
   const post = useMemo(() => {
-    return blogPosts.find((p) => p.id === id);
-  }, [id]);
+    const raw = blogPosts.find((p) => p.id === id);
+    return raw ? getLocalizedPost(raw, locale) : null;
+  }, [id, locale]);
 
   const currentIndex = blogPosts.findIndex((p) => p.id === id);
   const previousPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null;

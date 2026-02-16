@@ -1154,7 +1154,7 @@ body {
 }
 
 .blog-article-pane-title {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   margin: 0 0 12px 0;
   color: var(--win98-black);
@@ -1193,6 +1193,69 @@ body {
   min-height: 0;
   overflow-y: auto;
   padding: 20px 24px;
+}
+
+.prose-retro-list {
+  list-style: none;
+  padding-left: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prose-retro-list li::before {
+  content: "•";
+  display: inline-block;
+  margin-right: 4px;
+}
+
+/* 블로그 본문: 최소 16px 기준 */
+.prose-retro {
+  font-size: 16px;
+}
+
+.prose-retro p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.prose-retro .prose-retro-list li {
+  font-size: 16px;
+}
+
+.prose-retro blockquote {
+  font-size: 16px;
+}
+
+.prose-retro h1 {
+  font-size: 28px;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+
+.prose-retro h2 {
+  font-size: 22px;
+  margin-top: 1.75em;
+  margin-bottom: 0.6em;
+}
+
+.prose-retro h2:first-child {
+  margin-top: 0;
+}
+
+.prose-retro h3 {
+  font-size: 20px;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose-retro pre,
+.prose-retro pre code {
+  font-size: 16px;
+}
+
+.prose-retro .prose-retro-inline-code {
+  font-size: 16px;
 }
 
 .blog-article-box {

@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import { useWindow } from "@/contexts/WindowContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { blogPosts } from "@/data/posts";
+import { getLocalizedPost } from "@/data/blog.types";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function BlogPage() {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { setShowStartMenu } = useWindow();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobile, setIsMobile] = useState(false);
@@ -27,16 +28,21 @@ export default function BlogPage() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const localizedPosts = useMemo(
+    () => blogPosts.map((p) => getLocalizedPost(p, locale)),
+    [locale],
+  );
+
   const filteredPosts = useMemo(() => {
-    if (!searchQuery.trim()) return blogPosts;
+    if (!searchQuery.trim()) return localizedPosts;
     const query = searchQuery.toLowerCase();
-    return blogPosts.filter(
+    return localizedPosts.filter(
       (post) =>
         post.title.toLowerCase().includes(query) ||
         post.excerpt.toLowerCase().includes(query) ||
         post.tags.some((tag) => tag.toLowerCase().includes(query)),
     );
-  }, [searchQuery]);
+  }, [searchQuery, localizedPosts]);
 
   const totalPages = Math.ceil(filteredPosts.length / ITEMS_PER_PAGE) || 1;
 
