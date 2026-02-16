@@ -3,10 +3,11 @@ import type { BlogPost } from "@/data/blog.types";
 export const post: BlogPost = {
   id: "001",
   title: "History API",
-  date: "2024.11.15",
+  date: "2024. 11. 15.",
   excerpt:
     "브라우저가 관리하는 session history를 제어하기 위한 웹 표준 API입니다.",
   tags: ["HistoryAPI", "SPA", "Web API"],
+  thumbnail: "/images/history-api-thumbnail.webp",
   titleKo: "History API",
   titleEn: "History API",
   excerptKo:
