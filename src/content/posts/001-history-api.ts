@@ -158,9 +158,9 @@ addEventListener("popstate", (event) => {
 
 SPA에서 다음과 같은 상황을 가정해보자
 
-1. '뒤로가기' 버튼 클릭
+1. 링크 클릭 → (이벤트 핸들러에서) 페이지 업데이트 → (이벤트 핸들러에서) \`pushState()\` 를 사용해 history 스택에 history entry A 추가
 2. 또 다른 링크 클릭 → (이벤트 핸들러에서) 페이지 업데이트 → (이벤트 핸들러에서) \`pushState()\` 를 사용해 history 스택에 history entry B 추가
-3. 링크 클릭 → (이벤트 핸들러에서) 페이지 업데이트 → (이벤트 핸들러에서) \`pushState()\` 를 사용해 history 스택에 history entry A 추가
+3. '뒤로가기' 버튼 클릭
 
 그럼 이제 history entry는 A가 되어야 한다.
 
@@ -184,9 +184,9 @@ window.addEventListener("popstate", (event) => {
 
 SPA에서 다음과 같은 상황을 가정해보자
 
-1. '뒤로가기' 버튼 클릭
+1. SPA 페이지 로드 → 브라우저가 history 스택에 history entry A 추가
 2. 또 다른 링크 클릭 → (이벤트 핸들러에서) 페이지 업데이트 → (이벤트 핸들러에서) \`pushState()\` 를 사용해 history 스택에 history entry B 추가
-3. SPA 페이지 로드 → 브라우저가 history 스택에 history entry A 추가
+3. '뒤로가기' 버튼 클릭
 
 이제 우리는 SPA의 초기 상태로 돌아가고 싶지만 초기 페이지의 history entry에 \`state\` 가 없으므로 (\`null\`) \`popstate\` 를 사용할 수 없다. 이 때 사용하는 것이 \`replaceState()\` 이다.
 
@@ -214,7 +214,7 @@ history.replaceState(initialState, "", document.location.href);
 
 ## 결론
 
-\`History API\` 는 \`SPA\` 의 발전에 따라 등장한 기술로 사용자의 브라우저 내비게이션 경험을 개선하기 위해 만들어진 기능이다. 즉, \`History API\` 를 사용하여 \`SPA\` 에서 페이지 리로드 없이 브라우저의 \`URL\` 을 변경하고 내비게이션 기록을 관리할 수 있다.
+\`History API\` 는 \`SPA\` 의 발전에 따라 등장한 기술로 사용자의 브라우저 내비게이션 경험을 개선하기 위해 만들어진 기능이다. 즉, **\`History API\` 를 사용하여 \`SPA\` 에서 페이지 리로드 없이 브라우저의 \`URL\` 을 변경하고 내비게이션 기록을 관리**할 수 있다.
 
 참고) React Router는 \`History API\` 를 추상화한 라이브러리로 라우팅 기능을 제공하며, 버전 6부터는 \`navigate()\` 메서드를 통해 \`push\`, \`replace\` 여부를 옵션 인자로 받아 제어한다.
 
@@ -248,7 +248,7 @@ function HomePage() {
 
 ## 참고
 
-- [react router v6 - useNavigate](https://reactrouter.com/en/main/hooks/use-navigate)
+- [react router v6 - useNavigate](https://api.reactrouter.com/v7/functions/react-router.useNavigate.html)
 - [Working with the History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API)
 `,
   contentEn: `## What is the History API?
@@ -390,9 +390,9 @@ Note) \`popstate\` does not fire when \`pushState\` or \`replaceState\` is calle
 
 Consider this SPA scenario:
 
-1. User clicks Back
+1. User clicks link → (in event handler) page updates → (in event handler) \`pushState()\` adds history entry A to the history stack
 2. User clicks another link → (in event handler) page updates → (in event handler) \`pushState()\` adds history entry B to the history stack
-3. User clicks link → (in event handler) page updates → (in event handler) \`pushState()\` adds history entry A to the history stack
+3. User clicks Back button
 
 So now history entry should be A.
 
@@ -416,9 +416,9 @@ window.addEventListener("popstate", (event) => {
 
 Consider this SPA scenario:
 
-1. User clicks Back
+1. SPA page loads → browser adds history entry A to the history stack
 2. User clicks another link → (in event handler) page updates → (in event handler) \`pushState()\` adds history entry B to the history stack
-3. SPA page loads → browser adds history entry A to the history stack
+3. User clicks Back
 
 We want to return to the initial SPA state, but the initial page's history entry has no \`state\` (\`null\`), so we cannot use \`popstate\`. That is when \`replaceState()\` comes in.
 
@@ -446,7 +446,7 @@ Therefore when the user returns to the starting point, the \`popstate\` event's 
 
 ## Conclusion
 
-The \`History API\` emerged with the growth of \`SPA\`s and was created to improve the user's browser navigation experience. With it, you can change the browser's \`URL\` and manage navigation history in an \`SPA\` without page reload.
+The \`History API\` emerged with the growth of \`SPA\`s and was created to improve the user's browser navigation experience. That is, **with the \`History API\`, you can change the browser's \`URL\` and manage navigation history in an \`SPA\` without page reload**.
 
 Note) React Router abstracts the \`History API\` and provides routing; from v6 onward, the \`navigate()\` method controls \`push\` vs \`replace\` via an options argument.
 
@@ -480,7 +480,7 @@ function HomePage() {
 
 ## References
 
-- [react router v6 - useNavigate](https://reactrouter.com/en/main/hooks/use-navigate)
+- [react router v6 - useNavigate](https://api.reactrouter.com/v7/functions/react-router.useNavigate.html)
 - [Working with the History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API)
 `,
 };
