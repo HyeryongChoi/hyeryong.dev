@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { VT323 } from "next/font/google";
 import "./globals.css";
 import { WindowProvider } from "@/contexts/WindowContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { WindowManager } from "@/components/WindowManager";
 import { Taskbar } from "@/components/Taskbar";
 
@@ -50,16 +51,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={vt323.variable}>
-        <WindowProvider>
-          {children}
-          <WindowManager />
-          <Taskbar />
-        </WindowProvider>
+        <LanguageProvider>
+          <WindowProvider>
+            {children}
+            <WindowManager />
+            <Taskbar />
+          </WindowProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

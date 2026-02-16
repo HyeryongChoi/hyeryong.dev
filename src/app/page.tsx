@@ -3,19 +3,28 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useWindow } from "@/contexts/WindowContext";
-import { 
-  WindowsMyComputer2, 
-  Windows98MyDocuments2, 
-  InternetExplorer10, 
-  WindowsRecycleBin, 
+import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  WindowsMyComputer2,
+  Windows98MyDocuments2,
+  InternetExplorer10,
+  WindowsRecycleBin,
   WindowsNetworkNeighborhood3,
   WindowsBriefcase,
-  WindowsCDROMDrive
+  WindowsCDROMDrive,
 } from "react-old-icons";
 
 export default function Home() {
   const pathname = usePathname();
-  const { setShowExplorerWindow, setShowMusicPlayer, setIsMusicPlayerMinimized, setMusicEverOpened, bringToFront, setShowStartMenu } = useWindow();
+  const { t } = useLanguage();
+  const {
+    setShowExplorerWindow,
+    setShowMusicPlayer,
+    setIsMusicPlayerMinimized,
+    setMusicEverOpened,
+    bringToFront,
+    setShowStartMenu,
+  } = useWindow();
   const [isMobile, setIsMobile] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
@@ -30,32 +39,35 @@ export default function Home() {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleMyComputerClick = () => {
     setShowExplorerWindow(true);
-    bringToFront('explorer');
+    bringToFront("explorer");
   };
 
   const handleMusicClick = () => {
     setShowMusicPlayer(true);
     setIsMusicPlayerMinimized(false);
     setMusicEverOpened(true);
-    bringToFront('music');
+    bringToFront("music");
   };
 
   return (
     <>
       {/* Windows 98 바탕화면 */}
-      <main className="desktop" onClick={() => {
-        setShowStartMenu(false);
-        setSelectedIcon(null);
-      }}>
+      <main
+        className="desktop"
+        onClick={() => {
+          setShowStartMenu(false);
+          setSelectedIcon(null);
+        }}
+      >
         {/* 바탕화면 아이콘들 */}
         <nav aria-label="Desktop icons">
-          <button 
+          <button
             className={`desktop-icon ${selectedIcon === "mycomputer" ? "selected" : ""}`}
             onDoubleClick={handleMyComputerClick}
             onClick={(e) => {
@@ -71,7 +83,7 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <WindowsMyComputer2 size={32} />
             </div>
-            <div className="icon-label">My Computer</div>
+            <div className="icon-label">{t("desktop.myComputer")}</div>
           </button>
 
           <button
@@ -85,7 +97,7 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <Windows98MyDocuments2 size={32} />
             </div>
-            <div className="icon-label">My Documents</div>
+            <div className="icon-label">{t("desktop.myDocuments")}</div>
           </button>
 
           <button
@@ -99,7 +111,7 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <InternetExplorer10 size={32} />
             </div>
-            <div className="icon-label">Internet Explorer</div>
+            <div className="icon-label">{t("desktop.internetExplorer")}</div>
           </button>
 
           <button
@@ -113,7 +125,7 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <WindowsNetworkNeighborhood3 size={32} />
             </div>
-            <div className="icon-label">Network Neighborhood</div>
+            <div className="icon-label">{t("desktop.networkNeighborhood")}</div>
           </button>
 
           <button
@@ -127,7 +139,7 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <WindowsRecycleBin size={32} />
             </div>
-            <div className="icon-label">Recycle Bin</div>
+            <div className="icon-label">{t("desktop.recycleBin")}</div>
           </button>
 
           <button
@@ -141,10 +153,10 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <WindowsBriefcase size={32} />
             </div>
-            <div className="icon-label">Briefcase</div>
+            <div className="icon-label">{t("desktop.briefcase")}</div>
           </button>
 
-          <button 
+          <button
             className={`desktop-icon ${selectedIcon === "music" ? "selected" : ""}`}
             onDoubleClick={handleMusicClick}
             onClick={(e) => {
@@ -160,11 +172,10 @@ export default function Home() {
             <div className="icon-image flex items-center justify-center">
               <WindowsCDROMDrive size={32} />
             </div>
-            <div className="icon-label">Music</div>
+            <div className="icon-label">{t("desktop.music")}</div>
           </button>
         </nav>
       </main>
-
     </>
   );
 }

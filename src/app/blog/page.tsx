@@ -3,12 +3,14 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useWindow } from "@/contexts/WindowContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { blogPosts } from "@/data/posts";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function BlogPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const { setShowStartMenu } = useWindow();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobile, setIsMobile] = useState(false);
@@ -106,8 +108,8 @@ export default function BlogPage() {
     >
       <div className="blog-container blog-list-screen">
         <header className="blog-masthead">
-          <h1 className="blog-masthead-title">BLOG</h1>
-          <span className="blog-masthead-sub">directory listing</span>
+          <h1 className="blog-masthead-title">{t("blog.mastheadTitle")}</h1>
+          <span className="blog-masthead-sub">{t("blog.mastheadSub")}</span>
         </header>
         <div className="blog-search-wrapper">
           <span className="blog-search-prompt" aria-hidden>
@@ -115,13 +117,13 @@ export default function BlogPage() {
           </span>
           <input
             type="text"
-            placeholder=" search..."
+            placeholder={t("blog.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="blog-search-input"
           />
           <button type="button" className="blog-search-button">
-            RUN
+            {t("blog.run")}
           </button>
         </div>
 
@@ -184,7 +186,7 @@ export default function BlogPage() {
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage <= 1}
             >
-              Previous
+              {t("blog.previous")}
             </button>
             <div className="blog-pagination-numbers">
               {paginationPages.map((page, i) =>
@@ -214,7 +216,7 @@ export default function BlogPage() {
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage >= totalPages}
             >
-              Next
+              {t("blog.next")}
             </button>
           </nav>
         )}
@@ -224,7 +226,7 @@ export default function BlogPage() {
         )}
 
         {filteredPosts.length === 0 && (
-          <div className="blog-empty">No posts found.</div>
+          <div className="blog-empty">{t("blog.noPosts")}</div>
         )}
       </div>
     </main>

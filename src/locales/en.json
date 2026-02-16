@@ -1,0 +1,73 @@
+{
+  "taskbar": {
+    "start": "Start",
+    "hyeryongDev": "HYERYONG.DEV",
+    "windowsMediaPlayer": "Windows Media Player"
+  },
+  "startMenu": {
+    "windows98": "Windows 98",
+    "windowsUpdate": "Windows Update",
+    "programs": "Programs",
+    "favorites": "Favorites",
+    "documents": "Documents",
+    "settings": "Settings",
+    "find": "Find",
+    "help": "Help",
+    "run": "Run...",
+    "logOff": "Log Off...",
+    "shutDown": "Shut Down..."
+  },
+  "desktop": {
+    "myComputer": "My Computer",
+    "myDocuments": "My Documents",
+    "internetExplorer": "Internet Explorer",
+    "networkNeighborhood": "Network Neighborhood",
+    "recycleBin": "Recycle Bin",
+    "briefcase": "Briefcase",
+    "music": "Music"
+  },
+  "explorer": {
+    "address": "Address",
+    "intro": "Hi there, I'm Hyeryong Choi.\nWelcome to my blog — thanks for stopping by!",
+    "aboutMe": "About Me",
+    "blog": "Blog",
+    "projects": "Projects",
+    "contact": "Contact",
+    "music": "Music",
+    "objectsCount": "{count} object(s)",
+    "myComputer": "My Computer",
+    "back": "Back",
+    "forward": "Forward",
+    "up": "Up",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste",
+    "undo": "Undo",
+    "delete": "Delete",
+    "properties": "Properties",
+    "views": "Views",
+    "file": "File",
+    "edit": "Edit",
+    "view": "View",
+    "go": "Go",
+    "favorites": "Favorites",
+    "help": "Help",
+    "copySuccess": "URL copied to clipboard."
+  },
+  "blog": {
+    "searchPlaceholder": " search...",
+    "run": "RUN",
+    "prompt": "C:\\BLOG>",
+    "mastheadLabel": "C:\\",
+    "mastheadTitle": "BLOG",
+    "mastheadSub": "directory listing",
+    "noPosts": "No posts found.",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Loading..."
+  },
+  "about": {
+    "title": "About Page",
+    "comingSoon": "Coming soon..."
+  }
+}

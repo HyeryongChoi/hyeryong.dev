@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWindow } from "@/contexts/WindowContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   WindowsMyComputer2,
   WindowsCDROMDrive,
@@ -16,12 +17,25 @@ import {
   MicrosoftHelp,
   Windows95Run,
   WindowsShell45,
-  WindowsShutDown
+  WindowsShutDown,
 } from "react-old-icons";
 
 export function Taskbar() {
   const router = useRouter();
-  const { showExplorerWindow, setShowExplorerWindow, showMusicPlayer, setShowMusicPlayer, setIsMusicPlayerMinimized, musicEverOpened, bringToFront, explorerZIndex, musicZIndex, showStartMenu, setShowStartMenu } = useWindow();
+  const { t, locale, setLocale } = useLanguage();
+  const {
+    showExplorerWindow,
+    setShowExplorerWindow,
+    showMusicPlayer,
+    setShowMusicPlayer,
+    setIsMusicPlayerMinimized,
+    musicEverOpened,
+    bringToFront,
+    explorerZIndex,
+    musicZIndex,
+    showStartMenu,
+    setShowStartMenu,
+  } = useWindow();
   const [currentTime, setCurrentTime] = useState("");
   const [mounted, setMounted] = useState(false);
 
@@ -52,55 +66,57 @@ export function Taskbar() {
       {showStartMenu && (
         <nav className="start-menu" aria-label="Start menu">
           <div className="start-menu-banner">
-            <span>Windows 98</span>
+            <span>{t("startMenu.windows98")}</span>
           </div>
           <ul className="start-menu-items">
             <li className="start-menu-item">
               <WindowsShell47 size={20} />
-              <span><u>W</u>indows Update</span>
+              <span>{t("startMenu.windowsUpdate")}</span>
             </li>
             <li className="start-menu-separator"></li>
             <li className="start-menu-item">
               <WindowsProgramGroup3 size={20} />
-              <span><u>P</u>rograms</span>
+              <span>{t("startMenu.programs")}</span>
               <span className="submenu-arrow">▶</span>
             </li>
             <li className="start-menu-item">
               <Windows95StartupDiskWizard size={20} />
-              <span>F<u>a</u>vorites</span>
+              <span>{t("startMenu.favorites")}</span>
               <span className="submenu-arrow">▶</span>
             </li>
             <li className="start-menu-item">
               <Windows98MyDocuments2 size={20} />
-              <span><u>D</u>ocuments</span>
+              <span>{t("startMenu.documents")}</span>
               <span className="submenu-arrow">▶</span>
             </li>
             <li className="start-menu-item">
               <WindowsShell32Icon22 size={20} />
-              <span><u>S</u>ettings</span>
+              <span>
+                <u>S</u>ettings
+              </span>
               <span className="submenu-arrow">▶</span>
             </li>
             <li className="start-menu-item">
               <WindowsShell32Icon134 size={20} />
-              <span><u>F</u>ind</span>
+              <span>{t("startMenu.find")}</span>
               <span className="submenu-arrow">▶</span>
             </li>
             <li className="start-menu-item">
               <MicrosoftHelp size={20} />
-              <span><u>H</u>elp</span>
+              <span>{t("startMenu.help")}</span>
             </li>
             <li className="start-menu-item">
               <Windows95Run size={20} />
-              <span><u>R</u>un...</span>
+              <span>{t("startMenu.run")}</span>
             </li>
             <li className="start-menu-separator"></li>
             <li className="start-menu-item">
               <WindowsShell45 size={20} />
-              <span>Log O<u>f</u>f...</span>
+              <span>{t("startMenu.logOff")}</span>
             </li>
             <li className="start-menu-item">
               <WindowsShutDown size={20} />
-              <span>S<u>h</u>ut Down...</span>
+              <span>{t("startMenu.shutDown")}</span>
             </li>
           </ul>
         </nav>
@@ -109,48 +125,60 @@ export function Taskbar() {
       {/* 작업 표시줄 */}
       <footer className="taskbar">
         <button
-          className={`start-button ${showStartMenu ? 'active' : ''}`}
+          className={`start-button ${showStartMenu ? "active" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
             setShowStartMenu(!showStartMenu);
-            router.push('/');
+            router.push("/");
           }}
           aria-label="Start menu"
         >
           <WindowsShell40 size={16} />
-          <span>Start</span>
+          <span>{t("taskbar.start")}</span>
         </button>
         <div className="taskbar-divider"></div>
-        <button 
-          className={`taskbar-button ${showExplorerWindow && explorerZIndex > musicZIndex ? 'active' : ''}`}
+        <button
+          className={`taskbar-button ${showExplorerWindow && explorerZIndex > musicZIndex ? "active" : ""}`}
           onClick={() => {
             if (!showExplorerWindow) {
               setShowExplorerWindow(true);
             }
-            bringToFront('explorer');
+            bringToFront("explorer");
           }}
           aria-label="HYERYONG.DEV window"
         >
           <WindowsMyComputer2 size={14} />
-          <span>HYERYONG.DEV</span>
+          <span>{t("taskbar.hyeryongDev")}</span>
         </button>
         {musicEverOpened && (
-          <button 
-            className={`taskbar-button ${showMusicPlayer && musicZIndex > explorerZIndex ? 'active' : ''}`}
+          <button
+            className={`taskbar-button ${showMusicPlayer && musicZIndex > explorerZIndex ? "active" : ""}`}
             onClick={() => {
               setShowMusicPlayer(true);
               setIsMusicPlayerMinimized(false);
-              bringToFront('music');
+              bringToFront("music");
             }}
             aria-label="Windows Media Player window"
           >
             <WindowsCDROMDrive size={14} />
-            <span>Windows Media Player</span>
+            <span>{t("taskbar.windowsMediaPlayer")}</span>
           </button>
         )}
-        <time className="clock" suppressHydrationWarning>
-          <span suppressHydrationWarning>{currentTime}</span>
-        </time>
+        <div className="taskbar-divider"></div>
+        <div className="taskbar-right">
+          <select
+            className="taskbar-lang-select"
+            value={locale}
+            onChange={(e) => setLocale(e.target.value as "ko" | "en")}
+            aria-label="Language"
+          >
+            <option value="en">EN</option>
+            <option value="ko">KO</option>
+          </select>
+          <time className="clock" suppressHydrationWarning>
+            <span suppressHydrationWarning>{currentTime}</span>
+          </time>
+        </div>
       </footer>
     </>
   );

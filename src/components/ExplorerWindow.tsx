@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useWindow } from "@/contexts/WindowContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Windows98MyDocuments2,
   WindowsShell32Icon3,
@@ -26,6 +27,7 @@ export function ExplorerWindow() {
     setShowStartMenu,
     bringToFront,
   } = useWindow();
+  const { t } = useLanguage();
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -139,7 +141,7 @@ export function ExplorerWindow() {
   const handleCopy = () => {
     if (typeof window !== "undefined") {
       navigator.clipboard.writeText("https://hyeryongdev.vercel.app");
-      setAlertMessage("URL이 클립보드에 복사되었습니다.");
+      setAlertMessage(t("explorer.copySuccess"));
       setShowAlert(true);
     }
   };
@@ -197,24 +199,12 @@ export function ExplorerWindow() {
 
       {/* 메뉴바 */}
       <div className="explorer-menubar">
-        <span>
-          <u>F</u>ile
-        </span>
-        <span>
-          <u>E</u>dit
-        </span>
-        <span>
-          <u>V</u>iew
-        </span>
-        <span>
-          <u>G</u>o
-        </span>
-        <span>
-          F<u>a</u>vorites
-        </span>
-        <span>
-          <u>H</u>elp
-        </span>
+        <span>{t("explorer.file")}</span>
+        <span>{t("explorer.edit")}</span>
+        <span>{t("explorer.view")}</span>
+        <span>{t("explorer.go")}</span>
+        <span>{t("explorer.favorites")}</span>
+        <span>{t("explorer.help")}</span>
       </div>
 
       {/* 툴바 */}
@@ -225,11 +215,11 @@ export function ExplorerWindow() {
       >
         <button className="toolbar-button" onClick={() => router.back()}>
           <span>←</span>
-          <span>Back</span>
+          <span>{t("explorer.back")}</span>
         </button>
         <button className="toolbar-button" onClick={() => router.forward()}>
           <span>→</span>
-          <span>Forward</span>
+          <span>{t("explorer.forward")}</span>
         </button>
         <button
           className="toolbar-button"
@@ -239,29 +229,29 @@ export function ExplorerWindow() {
           }}
         >
           <span>↑</span>
-          <span>Up</span>
+          <span>{t("explorer.up")}</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
           <span style={{ lineHeight: "16px" }}>✂</span>
-          <span>Cut</span>
+          <span>{t("explorer.cut")}</span>
         </button>
         <button className="toolbar-button" onClick={handleCopy}>
           <span>⎘</span>
-          <span>Copy</span>
+          <span>{t("explorer.copy")}</span>
         </button>
         <button className="toolbar-button">
           <span>⎗</span>
-          <span>Paste</span>
+          <span>{t("explorer.paste")}</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
           <span>↶</span>
-          <span>Undo</span>
+          <span>{t("explorer.undo")}</span>
         </button>
         <button className="toolbar-button">
           <span>×</span>
-          <span>Delete</span>
+          <span>{t("explorer.delete")}</span>
         </button>
         <div className="toolbar-separator"></div>
         <button className="toolbar-button">
@@ -270,13 +260,13 @@ export function ExplorerWindow() {
         </button>
         <button className="toolbar-button">
           <span>☰</span>
-          <span>Views</span>
+          <span>{t("explorer.views")}</span>
         </button>
       </div>
 
       {/* 주소 표시줄 */}
       <div className="address-bar">
-        <span className="address-bar-label">Address</span>
+        <span className="address-bar-label">{t("explorer.address")}</span>
         <input
           type="text"
           className="address-bar-input"
@@ -299,7 +289,7 @@ export function ExplorerWindow() {
             HYERYONG.DEV
           </h2>
           <pre style={{ fontSize: "11px", color: "#000", lineHeight: "1.6" }}>
-            {`Hi there, I’m Hyeryong Choi.\nWelcome to my blog — thanks for stopping by!`}
+            {t("explorer.intro")}
           </pre>
         </div>
 
@@ -326,7 +316,7 @@ export function ExplorerWindow() {
             onBlur={() => setSelectedFolderIcon(null)}
           >
             <WindowsShell32Icon3 size={32} />
-            <span>About Me</span>
+            <span>{t("explorer.aboutMe")}</span>
           </button>
 
           <button
@@ -343,7 +333,7 @@ export function ExplorerWindow() {
             onBlur={() => setSelectedFolderIcon(null)}
           >
             <Windows95TextFile size={32} />
-            <span>Blog</span>
+            <span>{t("explorer.blog")}</span>
           </button>
 
           <button
@@ -355,7 +345,7 @@ export function ExplorerWindow() {
             onBlur={() => setSelectedFolderIcon(null)}
           >
             <Windows98MyDocuments2 size={32} />
-            <span>Projects</span>
+            <span>{t("explorer.projects")}</span>
           </button>
 
           <button
@@ -367,7 +357,7 @@ export function ExplorerWindow() {
             onBlur={() => setSelectedFolderIcon(null)}
           >
             <Windows98Modem size={32} />
-            <span>Contact</span>
+            <span>{t("explorer.contact")}</span>
           </button>
 
           <button
@@ -384,7 +374,7 @@ export function ExplorerWindow() {
             onBlur={() => setSelectedFolderIcon(null)}
           >
             <WindowsCDROMDrive size={32} />
-            <span>Music</span>
+            <span>{t("explorer.music")}</span>
           </button>
         </div>
       </div>
@@ -392,9 +382,9 @@ export function ExplorerWindow() {
       {/* 상태바 */}
       <div className="explorer-status-bar">
         <div className="status-section" style={{ flex: 1 }}>
-          5 object(s)
+          {t("explorer.objectsCount", { count: 5 })}
         </div>
-        <div className="status-section">My Computer</div>
+        <div className="status-section">{t("explorer.myComputer")}</div>
       </div>
     </div>
   );
