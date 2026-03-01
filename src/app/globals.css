@@ -1191,7 +1191,7 @@ body {
 }
 
 .blog-article-content-inner {
-  padding: 20px 24px;
+  padding: 20px 24px 48px 24px;
 }
 
 .prose-retro-list {

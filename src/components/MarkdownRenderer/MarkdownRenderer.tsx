@@ -178,7 +178,7 @@ function parseInline(text: string): ReactNode[] {
           key={`bold-${result.length}`}
           className="font-bold text-crt-amber"
         >
-          {boldMatch[1]}
+          {parseInline(boldMatch[1])}
         </strong>,
       );
       remaining = remaining.slice(boldMatch[0].length);
@@ -192,7 +192,7 @@ function parseInline(text: string): ReactNode[] {
           className="hover:opacity-80"
           style={{ color: "#008080", textDecoration: "none" }}
         >
-          {linkMatch[1]}
+          {parseInline(linkMatch[1])}
         </a>,
       );
       remaining = remaining.slice(linkMatch[0].length);
@@ -320,6 +320,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
           <blockquote
             key={index}
             className="border-l-4 border-crt-cyan pl-6 my-6 font-retro text-crt-cyan italic"
+            style={{ paddingLeft: "8px" }}
           >
             {parseInline(line.slice(2))}
           </blockquote>,
@@ -331,6 +332,24 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
           key: index,
           content: <>{parseInline(line.slice(2))}</>,
         });
+      }
+      // 이미지 ![alt](url)
+      else if (line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)) {
+        flushList();
+        const match = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (match) {
+          const [, alt, src] = match;
+          elements.push(
+            <figure key={index} className="my-6 flex justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt={alt}
+                className="w-full max-w-full h-auto object-contain rounded-lg border border-gray-200 shadow-sm"
+              />
+            </figure>,
+          );
+        }
       }
       // 일반 텍스트
       else if (line.trim()) {
@@ -355,5 +374,5 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     return elements;
   };
 
-  return <div className="prose-retro">{parseMarkdown(content)}</div>;
+  return <div className="prose-retro mb-12">{parseMarkdown(content)}</div>;
 }
