@@ -36,7 +36,9 @@ function getInitialLocale(): Locale {
   if (typeof window === 'undefined') return 'en';
   const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
   if (stored === 'ko' || stored === 'en') return stored;
-  return 'en';
+  // 사용자 환경(브라우저/시스템 언어)에 따라 기본값 결정
+  const browserLang = navigator.language ?? navigator.languages?.[0] ?? 'en';
+  return browserLang.startsWith('ko') ? 'ko' : 'en';
 }
 
 function resolveMessage(obj: Record<string, unknown>, path: string): string | undefined {
