@@ -2,13 +2,16 @@ import type { BlogPost } from "@/data/blog.types";
 
 export const post: BlogPost = {
   id: "002",
-  title: "WebView 환경에서 스크롤 기준이 달라질 때 생기는 버그 추적기",
+  title:
+    "WebView에서 스크롤 복원이 깨지는 이유 (React Router ScrollRestoration 분석)",
   date: "2026. 3. 1.",
   excerpt:
     "인앱 브라우저에서 스크롤 복원이 정상 동작하지 않는 문제를 추적하고, 스크롤 루트를 런타임에 동적 감지하여 해결한 경험을 공유합니다.",
   tags: ["WebView", "ScrollRestoration", "React Router", "SPA"],
-  titleKo: "WebView 환경에서 스크롤 기준이 달라질 때 생기는 버그 추적기",
-  titleEn: "Debugging Scroll Restoration When Scroll Root Differs in WebView",
+  titleKo:
+    "WebView에서 스크롤 복원이 깨지는 이유 (React Router ScrollRestoration 분석)",
+  titleEn:
+    "Why Scroll Restoration Breaks in WebView (React Router ScrollRestoration Analysis)",
   excerptKo:
     "인앱 브라우저에서 스크롤 복원이 정상 동작하지 않는 문제를 추적하고, 스크롤 루트를 런타임에 동적 감지하여 해결한 경험을 공유합니다.",
   excerptEn:
@@ -72,6 +75,11 @@ document.body.scrollTop // 실제 스크롤 값
 \`\`\`
 
 즉, 스크롤이 발생하는 주체가 환경마다 달랐습니다.
+
+이는 일부 WebView 구현에서 viewport와 document의 scroll container가
+window가 아닌 body로 설정되는 경우가 있기 때문입니다.
+특히 iOS 기반 인앱 브라우저에서 이런 구현 차이가 종종 나타납니다.
+
 window 기준으로만 복원하면 body에 남아 있는 스크롤 값은 초기화되지 않고 그대로 유지됩니다.
 
 그 결과:
@@ -121,7 +129,8 @@ function detectScrollRootOnDemand(): { root: ScrollRoot; top: number } {
 - 값이 0이 아닌 후보가 있다면 그것을 우선한다.
 - 전부 0이면 기본값은 window.
 
-환경을 분기하지 않고 **실제 동작 결과를 기준으로 루트를 확정**합니다.
+중요한 점은 환경을 추측하지 않는다는 것입니다.
+**특정 WebView를 분기하는 대신 실제 스크롤 상태를 기반으로 판단**하도록 설계했습니다.
 (이 코드는 앱 전체에서 스크롤 루트가 동일하다는 전제로 동작합니다)
 
 ### **2️⃣ location.key 기반 스크롤 저장**
@@ -186,7 +195,7 @@ function restoreScrollByRoot(root: ScrollRoot, top: number): void {
 이후 다음이 보장되었습니다.
 - 목록 → 프로필 이동 시 항상 최상단 시작
 - 뒤로 가기 시 정확한 위치 복원
-- WebView 환경 추가되어도 구조 변경 없음
+- 특정 인앱 브라우저에 의존하지 않기 때문에 새로운 WebView 환경이 추가되어도 구조 변경 없음
 - 특정 앱을 하드코딩하지 않음
 
 일반 브라우저에서 당연하게 동작하던 전제가 WebView 환경에서도 그대로 유지되지는 않는다는 점을 이번에 알게 되었습니다.
@@ -253,6 +262,10 @@ the scroll was happening on body, not window.
 \`\`\`
 
 That is, the scroll host differed by environment.
+
+This happens because in some WebView implementations the viewport and document scroll container are set to body rather than window.
+Such implementation differences often appear in iOS-based in-app browsers.
+
 When restoring only based on window, the scroll value remaining in body was not reset and stayed as-is.
 
 Result:
@@ -302,7 +315,8 @@ The idea is simple:
 - If any candidate has a non-zero value, prefer it.
 - If all are zero, default to window.
 
-We do not branch by environment but **determine the root based on actual behavior**.
+The important point is that we do not guess the environment.
+We **designed it to judge based on actual scroll state rather than branching by specific WebView**.
 (This code assumes the scroll root is the same across the entire app)
 
 ### **2️⃣ location.key-based Scroll Storage**
@@ -367,7 +381,7 @@ function restoreScrollByRoot(root: ScrollRoot, top: number): void {
 After this, we ensured:
 - List → profile navigation always starts at top
 - Back navigation restores the correct position
-- No structural changes needed when new WebView environments are added
+- No dependency on specific in-app browsers, so no structural changes when new WebView environments are added
 - No hardcoding for specific apps
 
 We learned that assumptions that work in normal browsers do not necessarily hold in WebView environments.
