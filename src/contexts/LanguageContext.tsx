@@ -34,7 +34,12 @@ const STORAGE_KEY = 'locale';
 
 function getInitialLocale(): Locale {
   if (typeof window === 'undefined') return 'en';
-  const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem(STORAGE_KEY);
+  } catch {
+    // 시크릿 모드·차단된 사이트 데이터 등: 저장소 없이 브라우저 언어로 결정
+  }
   if (stored === 'ko' || stored === 'en') return stored;
   // 사용자 환경(브라우저/시스템 언어)에 따라 기본값 결정
   const browserLang = navigator.language ?? navigator.languages?.[0] ?? 'en';
@@ -64,7 +69,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next);
     if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, next);
+      try {
+        localStorage.setItem(STORAGE_KEY, next);
+      } catch {
+        // 저장소를 쓸 수 없으면 이번 방문 동안만 유지
+      }
       document.documentElement.lang = next === 'ko' ? 'ko' : 'en';
     }
   }, []);
