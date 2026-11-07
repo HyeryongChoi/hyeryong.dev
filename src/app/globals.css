@@ -1880,3 +1880,277 @@ body {
 .loading-spinner-inline .loading-spinner-track {
   margin-bottom: 0;
 }
+
+/* ===== 블로그 에디터 (/editor) ===== */
+.editor-page .editor-container {
+  max-width: none;
+  padding: 8px;
+}
+.editor-window {
+  background: var(--win98-gray);
+}
+.editor-title-text {
+  font-size: 11px;
+  user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.editor-title-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.editor-signout,
+.editor-button {
+  background: var(--win98-gray);
+  color: var(--win98-black);
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  font-size: 12px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.editor-signout {
+  font-size: 11px;
+  padding: 0 6px;
+}
+.editor-signout:active,
+.editor-button:active:not(:disabled) {
+  border-color: var(--win98-black) var(--win98-white) var(--win98-white)
+    var(--win98-black);
+}
+.editor-button:disabled {
+  color: var(--win98-dark-gray);
+  cursor: default;
+}
+.editor-button-primary {
+  outline: 1px solid var(--win98-black);
+  outline-offset: -4px;
+  font-weight: bold;
+}
+.editor-toolbar .toolbar-button:disabled {
+  opacity: 0.5;
+}
+.editor-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+}
+
+/* 메타 입력 */
+.editor-meta {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 4px 12px;
+  font-size: 12px;
+}
+.editor-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.editor-field-wide {
+  grid-column: span 3;
+}
+.editor-field label {
+  min-width: 56px;
+  font-size: 12px;
+}
+.editor-input,
+.editor-textarea {
+  flex: 1;
+  min-width: 0;
+  background: var(--win98-white);
+  color: var(--win98-black);
+  border: 2px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
+  box-shadow: inset 1px 1px 0 var(--win98-darker-gray);
+  padding: 3px 5px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.editor-input:read-only {
+  background: var(--win98-gray);
+}
+.editor-input[aria-invalid="true"] {
+  outline: 2px solid #c00000;
+  outline-offset: -2px;
+}
+.editor-field-error {
+  color: #c00000;
+  font-size: 11px;
+}
+
+/* KO / EN 탭 */
+.editor-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  margin-bottom: -6px;
+  padding-left: 4px;
+  position: relative;
+  z-index: 1;
+}
+.editor-tab {
+  background: var(--win98-gray);
+  border: 2px solid;
+  border-bottom: none;
+  border-color: var(--win98-white) var(--win98-black) transparent
+    var(--win98-white);
+  padding: 3px 14px 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.editor-tab[aria-selected="true"] {
+  padding-bottom: 7px;
+  font-weight: bold;
+}
+.editor-tab-badge {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--win98-dark-gray);
+  font-weight: normal;
+}
+
+/* 좌우 분할 */
+.editor-split {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  padding: 6px;
+}
+.editor-pane {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.editor-pane-label {
+  font-size: 11px;
+  padding: 0 2px 3px;
+  color: var(--win98-darker-gray);
+  display: flex;
+  justify-content: space-between;
+}
+.editor-textarea {
+  flex: 1;
+  resize: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 8px;
+}
+.editor-textarea.editor-dropping {
+  outline: 3px dashed var(--win98-blue);
+  outline-offset: -6px;
+}
+.editor-preview {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--win98-white);
+  border: 2px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
+}
+.editor-preview-notice {
+  margin: 12px 16px 0;
+  padding: 6px 10px;
+  background: #ffffe1;
+  border: 1px solid var(--win98-black);
+  font-size: 12px;
+}
+
+/* 대화상자 */
+.editor-login-page {
+  align-items: center;
+  justify-content: center;
+}
+.editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.editor-dialog {
+  width: min(440px, calc(100vw - 32px));
+}
+.editor-dialog-wide {
+  width: min(640px, calc(100vw - 32px));
+}
+.editor-dialog-body {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.editor-dialog-body a {
+  color: var(--win98-blue);
+  text-decoration: underline;
+}
+.editor-dialog-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+.editor-dialog-strong {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.editor-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 16px 14px;
+}
+.editor-error {
+  color: #c00000;
+  margin-top: 6px;
+}
+.editor-post-list {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: var(--win98-white);
+}
+.editor-post-list-wrap {
+  flex: 1;
+  max-height: 320px;
+  overflow-y: auto;
+  border: 2px solid;
+  border-color: var(--win98-dark-gray) var(--win98-white) var(--win98-white)
+    var(--win98-dark-gray);
+}
+.editor-post-list th {
+  position: sticky;
+  top: 0;
+  background: var(--win98-gray);
+  text-align: left;
+  font-weight: normal;
+  padding: 2px 6px;
+  border: 1px solid;
+  border-color: var(--win98-white) var(--win98-dark-gray) var(--win98-dark-gray)
+    var(--win98-white);
+}
+.editor-post-list td {
+  padding: 3px 6px;
+  cursor: pointer;
+}
+.editor-post-list tr[aria-selected="true"] td {
+  background: var(--win98-blue);
+  color: var(--win98-white);
+}
