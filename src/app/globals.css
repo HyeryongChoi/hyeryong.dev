@@ -1943,10 +1943,17 @@ body {
   padding: 6px;
 }
 
-/* 메타 입력 */
+/* 공통 입력 (slug · 날짜 · 썸네일) */
+.editor-shared {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 160px) minmax(0, 1fr);
+  gap: 4px 12px;
+}
+
+/* 언어별 메타 입력 */
 .editor-meta {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 4px 12px;
   font-size: 12px;
 }
@@ -1956,7 +1963,7 @@ body {
   gap: 6px;
 }
 .editor-field-wide {
-  grid-column: span 3;
+  grid-column: 1 / -1;
 }
 .editor-field label {
   min-width: 56px;
@@ -1993,7 +2000,8 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 2px;
-  margin-bottom: -6px;
+  margin-top: 2px;
+  margin-bottom: -8px;
   padding-left: 4px;
   position: relative;
   z-index: 1;
@@ -2019,17 +2027,26 @@ body {
   font-weight: normal;
 }
 
+/* 탭 패널 */
+.editor-tabpanel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 2px solid;
+  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
+    var(--win98-white);
+  padding: 8px 6px 6px;
+}
+
 /* 좌우 분할 */
 .editor-split {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 6px;
-  border: 2px solid;
-  border-color: var(--win98-white) var(--win98-black) var(--win98-black)
-    var(--win98-white);
-  padding: 6px;
 }
 .editor-pane {
   min-height: 0;
@@ -2153,4 +2170,8 @@ body {
 .editor-post-list tr[aria-selected="true"] td {
   background: var(--win98-blue);
   color: var(--win98-white);
+}
+.editor-toolbar a.toolbar-button {
+  text-decoration: none;
+  color: inherit;
 }

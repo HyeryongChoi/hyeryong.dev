@@ -137,6 +137,22 @@ hyeryong.dev/
 
 ## 📝 Development Guide
 
+### Writing Posts (Web Editor `/editor`)
+
+Posts live in `src/content/posts/{id}-{slug}/ko.md` (+ optional `en.md`). See `src/content/posts/README.md` for the format.
+
+The deployed site has an owner-only editor at `/editor`: log in with GitHub, write Markdown with a live preview (same renderer as the blog), paste/drop images (converted to webp), and **Publish** commits the post and its images to `main` as a single commit. Vercel then redeploys (1–2 min).
+
+One-time setup:
+
+1. Create a GitHub OAuth App (Settings → Developer settings → OAuth Apps)
+   - Homepage URL: `https://hyeryongdev.vercel.app`
+   - Authorization callback URL: `https://hyeryongdev.vercel.app/api/auth/callback/github`
+2. Add environment variables in Vercel (see `.env.example`): `GITHUB_ID`, `GITHUB_SECRET`, `NEXTAUTH_SECRET` (`openssl rand -base64 32`)
+3. Redeploy. Only the GitHub account `HyeryongChoi` can sign in.
+
+Tests: `pnpm test`
+
 ### Adding a New Page
 
 1. Create new page in `src/app/` folder
