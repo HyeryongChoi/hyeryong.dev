@@ -1,5 +1,7 @@
 export interface BlogPost {
   id: string;
+  /** 폴더 이름({id}-{slug})의 slug. URL에는 쓰지 않는다. */
+  slug?: string;
   title: string;
   date: string;
   excerpt: string;
