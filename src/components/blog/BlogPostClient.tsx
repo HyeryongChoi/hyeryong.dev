@@ -88,7 +88,13 @@ export default function BlogPostClient({
               <button className="title-bar-button" type="button">
                 □
               </button>
-              <button className="title-bar-button" type="button">
+              <button
+                className="title-bar-button"
+                type="button"
+                aria-label="닫고 목록으로"
+                title="닫고 목록으로"
+                onClick={() => router.push("/blog")}
+              >
                 ✕
               </button>
             </div>
