@@ -2175,3 +2175,51 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
+/* 에디터 툴바 툴팁 (Win98 스타일) */
+.explorer-toolbar.editor-toolbar {
+  overflow: visible;
+  z-index: 20;
+}
+.editor-tool-tip {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 30;
+  width: max-content;
+  max-width: 260px;
+  padding: 3px 6px;
+  background: #ffffe1;
+  color: var(--win98-black);
+  border: 1px solid var(--win98-black);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.1s ease 0.25s, visibility 0s linear 0.35s;
+}
+.editor-tool:hover .editor-tool-tip,
+.editor-tool:focus-visible .editor-tool-tip {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0.25s, 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .editor-tool-tip,
+  .editor-tool:hover .editor-tool-tip,
+  .editor-tool:focus-visible .editor-tool-tip {
+    transition: none;
+  }
+}
+/* 기존 .toolbar-button span:last-child(8px) 규칙이 툴팁·라벨에 잘못 적용되지 않도록 크기를 명시 */
+.editor-tool span.editor-tool-label {
+  font-size: 8px;
+}
+.editor-tool span.editor-tool-tip {
+  font-size: 12px;
+}

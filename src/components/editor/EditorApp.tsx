@@ -21,6 +21,7 @@ import EditorDialog from "./EditorDialog";
 import EditorPreview from "./EditorPreview";
 import EditorWindow from "./EditorWindow";
 import OpenPostDialog from "./OpenPostDialog";
+import ToolbarButton from "./ToolbarButton";
 import { EditorApiError, editorApi } from "./editor-api";
 
 interface EditorAppProps {
@@ -261,34 +262,39 @@ export default function EditorApp({ login }: EditorAppProps) {
 
   const toolbar = (
     <>
-      <button
-        type="button"
-        className="toolbar-button"
+      <ToolbarButton
+        icon="📄"
+        label="New"
+        tooltip="빈 새 글을 시작해요. 저장하지 않은 내용이 있으면 먼저 물어봐요."
         disabled={busy !== null}
         onClick={() => guardDirty("작성 중인 내용을 닫고 새 글을 시작할까요?", () => resetTo(emptyDoc()))}
-      >
-        <span>📄</span>
-        <span>New</span>
-      </button>
-      <button
-        type="button"
-        className="toolbar-button"
+      />
+      <ToolbarButton
+        icon="📂"
+        label="Open"
+        tooltip="GitHub main에 있는 글 목록을 열어요. 고른 글을 불러와서 수정할 수 있어요."
         disabled={busy !== null}
         onClick={() => guardDirty("작성 중인 내용을 닫고 다른 글을 열까요?", () => setDialog({ type: "open" }))}
-      >
-        <span>📂</span>
-        <span>Open</span>
-      </button>
+      />
       <div className="toolbar-separator" />
-      <button type="button" className="toolbar-button" disabled={busy !== null} onClick={handlePublish}>
-        <span>🚀</span>
-        <span>{busy === "publish" ? "Publishing…" : "Publish"}</span>
-      </button>
+      <ToolbarButton
+        icon="🚀"
+        label={busy === "publish" ? "Publishing…" : "Publish"}
+        tooltip={
+          doc.id
+            ? `수정한 내용을 ${doc.id} 글에 반영해 main에 커밋해요. 1~2분 뒤 블로그에 보여요.`
+            : "글과 이미지를 main에 커밋 1개로 올려요. 1~2분 뒤 블로그에 새 글이 보여요."
+        }
+        disabled={busy !== null}
+        onClick={handlePublish}
+      />
       <div className="toolbar-separator" />
-      <a className="toolbar-button" href="/blog" target="_blank" rel="noreferrer">
-        <span>🌐</span>
-        <span>Blog</span>
-      </a>
+      <ToolbarButton
+        icon="🌐"
+        label="Blog"
+        tooltip="블로그(/blog)를 새 탭에서 열어요. 쓰던 내용은 그대로 남아요."
+        href="/blog"
+      />
     </>
   );
 
