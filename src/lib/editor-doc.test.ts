@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  autoThumbnail,
   emptyDoc,
+  imagePreviewSrc,
+  markdownImagePaths,
+  thumbnailCandidates,
   formatToday,
   fromLoadedPost,
   isDocBlank,
@@ -104,4 +108,51 @@ it("미리보기에서는 아직 배포되지 않은 이미지를 object URL로 
       { path: "/images/a.webp", blobSha: "1", previewUrl: "blob:x" },
     ]),
   ).toBe("![a](blob:x) ![a](blob:x)");
+});
+
+describe("썸네일", () => {
+  const withBodies = (ko: string, en = "") =>
+    filled({
+      ko: { title: "t", excerpt: "", tags: "", body: ko },
+      en: { title: en ? "e" : "", excerpt: "", tags: "", body: en },
+    });
+
+  it("본문 이미지 경로를 순서대로, 중복 없이 뽑는다", () => {
+    expect(
+      markdownImagePaths('![a](/images/a.webp)\n텍스트 ![b](/images/b.webp "제목")\n![a 다시](/images/a.webp)'),
+    ).toEqual(["/images/a.webp", "/images/b.webp"]);
+  });
+
+  it("자동 썸네일은 ko 본문 첫 이미지, 없으면 en 본문 첫 이미지", () => {
+    expect(autoThumbnail(withBodies("![](/images/ko.webp)", "![](/images/en.webp)"))).toBe("/images/ko.webp");
+    expect(autoThumbnail(withBodies("이미지 없음", "![](/images/en.webp)"))).toBe("/images/en.webp");
+    expect(autoThumbnail(withBodies("이미지 없음"))).toBeUndefined();
+  });
+
+  it("후보: 본문 이미지(KO→EN) + 본문에 없는 업로드 이미지", () => {
+    const doc = withBodies("![](/images/a.webp)", "![](/images/b.webp) ![](/images/a.webp)");
+    expect(
+      thumbnailCandidates(doc, [
+        { path: "/images/a.webp", blobSha: "1" },
+        { path: "/images/thumb-only.webp", blobSha: "2" },
+      ]),
+    ).toEqual([
+      { path: "/images/a.webp", inBody: true },
+      { path: "/images/b.webp", inBody: true },
+      { path: "/images/thumb-only.webp", inBody: false },
+    ]);
+  });
+
+  it("썸네일로만 올린 이미지도 발행 요청에 포함된다", () => {
+    const doc = filled({ thumbnail: "/images/thumb-only.webp" });
+    const req = toPublishRequest(doc, [{ path: "/images/thumb-only.webp", blobSha: "2" }]);
+    expect(req.images).toEqual([{ path: "/images/thumb-only.webp", blobSha: "2" }]);
+    expect(req.ko.frontmatter.thumbnail).toBe("/images/thumb-only.webp");
+  });
+
+  it("미리보기 주소: 올린 이미지는 object URL, 기존 이미지는 경로 그대로", () => {
+    const images = [{ path: "/images/new.webp", blobSha: "1", previewUrl: "blob:x" }];
+    expect(imagePreviewSrc("/images/new.webp", images)).toBe("blob:x");
+    expect(imagePreviewSrc("/images/history-api-thumbnail.webp", images)).toBe("/images/history-api-thumbnail.webp");
+  });
 });
