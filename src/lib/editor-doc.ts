@@ -159,3 +159,46 @@ export function previewMarkdown(body: string, images: EditorImage[]): string {
     body,
   );
 }
+
+// ---- 썸네일 ----
+
+const MARKDOWN_IMAGE = /!\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+"[^"]*")?\s*\)/g;
+
+/** 마크다운 본문에 나온 이미지 경로 (등장 순서, 중복 제거) */
+export function markdownImagePaths(body: string): string[] {
+  const paths: string[] = [];
+  for (const match of Array.from(body.matchAll(MARKDOWN_IMAGE))) {
+    if (!paths.includes(match[1])) paths.push(match[1]);
+  }
+  return paths;
+}
+
+/** 썸네일을 비워뒀을 때 블로그가 쓰는 이미지 (blog.types 규칙과 같다: ko 본문 첫 이미지 → en 본문 첫 이미지) */
+export function autoThumbnail(doc: EditorDoc): string | undefined {
+  return markdownImagePaths(doc.ko.body)[0] ?? markdownImagePaths(doc.en.body)[0];
+}
+
+export interface ThumbnailCandidate {
+  path: string;
+  /** 본문에 들어 있는 이미지인지 (아니면 썸네일용으로만 올린 이미지) */
+  inBody: boolean;
+}
+
+/** 썸네일로 고를 수 있는 이미지: 본문 이미지(KO → EN 순) + 이번에 올렸지만 본문에 없는 이미지 */
+export function thumbnailCandidates(doc: EditorDoc, images: PublishImage[]): ThumbnailCandidate[] {
+  const seen = new Set<string>();
+  const list: ThumbnailCandidate[] = [];
+  const add = (path: string, inBody: boolean) => {
+    if (seen.has(path)) return;
+    seen.add(path);
+    list.push({ path, inBody });
+  };
+  [...markdownImagePaths(doc.ko.body), ...markdownImagePaths(doc.en.body)].forEach((p) => add(p, true));
+  images.forEach((img) => add(img.path, false));
+  return list;
+}
+
+/** 아직 배포되지 않은 이미지는 브라우저의 미리보기 URL로, 나머지는 경로 그대로 보여준다 */
+export function imagePreviewSrc(path: string, images: EditorImage[]): string {
+  return images.find((img) => img.path === path)?.previewUrl ?? path;
+}

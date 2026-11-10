@@ -4,7 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ClipboardEvent,
 import { signIn } from "next-auth/react";
 import type { FieldErrorItem, PublishResponse } from "@/lib/editor-api-types";
 import {
+  autoThumbnail,
   emptyDoc,
+  imagePreviewSrc,
+  thumbnailCandidates,
   fromLoadedPost,
   isDocBlank,
   isLocaleEmpty,
@@ -21,6 +24,8 @@ import EditorDialog from "./EditorDialog";
 import EditorPreview from "./EditorPreview";
 import EditorWindow from "./EditorWindow";
 import OpenPostDialog from "./OpenPostDialog";
+import ThumbnailField from "./ThumbnailField";
+import ThumbnailPicker from "./ThumbnailPicker";
 import ToolbarButton from "./ToolbarButton";
 import { EditorApiError, editorApi } from "./editor-api";
 
@@ -31,6 +36,7 @@ interface EditorAppProps {
 type Dialog =
   | { type: "restore"; draft: StoredDraft }
   | { type: "open" }
+  | { type: "thumbnail" }
   | { type: "published"; result: PublishResponse }
   | { type: "message"; title: string; icon: string; message: string; relogin?: boolean }
   | { type: "confirm"; message: string; onConfirm: () => void };
@@ -205,36 +211,64 @@ export default function EditorApp({ login }: EditorAppProps) {
     });
   };
 
-  const handleImageFiles = async (files: File[]) => {
+  /** 이미지 파일을 webp로 바꿔 올린다. 실패하면 안내를 띄우고 null */
+  const uploadImageFiles = async (files: File[]): Promise<{ file: File; image: EditorImage }[] | null> => {
     const imageFiles = files.filter((f) => f.type.startsWith("image/"));
     if (imageFiles.length === 0) {
       setDialog({ type: "message", title: "이미지 아님", icon: "🖼️", message: "이미지 파일만 넣을 수 있어요." });
-      return;
+      return null;
     }
     setBusy("upload");
     try {
-      const snippets: string[] = [];
+      const uploaded: { file: File; image: EditorImage }[] = [];
       for (const file of imageFiles) {
         setStatus(`이미지 변환·업로드 중: ${file.name || "clipboard"}`);
         const webp = await toWebp(file);
-        const uploaded = await editorApi.uploadImage({
+        const res = await editorApi.uploadImage({
           filename: file.name || "clipboard.png",
           base64: await blobToBase64(webp),
         });
-        setImages((prev) => [...prev, { ...uploaded, previewUrl: URL.createObjectURL(webp) }]);
-        snippets.push(`![${altFromFilename(file.name || "image")}](${uploaded.path})`);
+        uploaded.push({ file, image: { ...res, previewUrl: URL.createObjectURL(webp) } });
       }
-      insertAtCursor(snippets.join("\n"));
-      setStatus(`이미지 ${snippets.length}개 추가됨 (발행할 때 함께 커밋돼요)`);
+      setImages((prev) => [...prev, ...uploaded.map((u) => u.image)]);
+      return uploaded;
     } catch (error) {
       setStatus("이미지 업로드 실패");
+      setDialog(null);
       showApiError(error, "이미지를 올리지 못했어요");
+      return null;
     } finally {
       setBusy(null);
     }
   };
 
+  const handleImageFiles = async (files: File[]) => {
+    const uploaded = await uploadImageFiles(files);
+    if (!uploaded) return;
+    insertAtCursor(
+      uploaded.map(({ file, image }) => `![${altFromFilename(file.name || "image")}](${image.path})`).join("\n"),
+    );
+    setStatus(`이미지 ${uploaded.length}개 추가됨 (발행할 때 함께 커밋돼요)`);
+  };
+
+  // ---- 썸네일 ----
+  const previewSrc = (path: string) => imagePreviewSrc(path, images);
+
+  const selectThumbnail = (path: string) => {
+    updateShared("thumbnail", path);
+    setDialog(null);
+    setStatus(path ? `썸네일 지정: ${path}` : "썸네일: 자동 (본문 첫 이미지)");
+  };
+
+  const handleThumbnailUpload = async (files: File[]) => {
+    const uploaded = await uploadImageFiles(files.slice(0, 1));
+    if (!uploaded) return;
+    selectThumbnail(uploaded[0].image.path);
+  };
+
   const onPaste = (e: ClipboardEvent<HTMLTextAreaElement>) => {
+    // 썸네일 선택 창이 열려 있으면 그 창이 붙여넣기를 처리한다
+    if (dialog?.type === "thumbnail") return;
     const files = Array.from(e.clipboardData.files);
     if (files.length === 0) return;
     e.preventDefault();
@@ -340,13 +374,14 @@ export default function EditorApp({ login }: EditorAppProps) {
           />
         </div>
         <div className="editor-field">
-          <label htmlFor="editor-thumbnail">썸네일</label>
-          <input
-            id="editor-thumbnail"
-            className="editor-input"
+          <span className="editor-field-label">썸네일</span>
+          <ThumbnailField
             value={doc.thumbnail}
-            placeholder="(선택) 비우면 본문 첫 이미지"
-            onChange={(e) => updateShared("thumbnail", e.target.value)}
+            autoPath={autoThumbnail(doc)}
+            previewSrc={previewSrc}
+            disabled={busy !== null}
+            onOpenPicker={() => setDialog({ type: "thumbnail" })}
+            onClear={() => selectThumbnail("")}
           />
         </div>
       </div>
@@ -497,6 +532,19 @@ export default function EditorApp({ login }: EditorAppProps) {
       )}
 
       {dialog?.type === "open" && <OpenPostDialog onOpen={handleOpen} onCancel={() => setDialog(null)} />}
+
+      {dialog?.type === "thumbnail" && (
+        <ThumbnailPicker
+          candidates={thumbnailCandidates(doc, images)}
+          current={doc.thumbnail}
+          autoPath={autoThumbnail(doc)}
+          previewSrc={previewSrc}
+          uploading={busy === "upload"}
+          onSelect={selectThumbnail}
+          onUpload={(files) => void handleThumbnailUpload(files)}
+          onClose={() => setDialog(null)}
+        />
+      )}
 
       {dialog?.type === "published" && (
         <EditorDialog
